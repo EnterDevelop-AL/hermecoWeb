@@ -1,0 +1,297 @@
+{
+  "ALERT_TITLE": "Dear User, remember that you only have 30 days to complete the appointment",
+  "BACK_BUTTON_TEXT": "Back",
+  "LOADING": "Loading...",
+  "ERROR": "Error!",  
+  "OK": "Ok",
+  "CONFIRM": "Confirm",
+  "AGREE": "Agree",
+  "SESSION": {
+    "ERROR": "Session error!",
+    "MSG": "Your session has expired, log in again"
+  },
+  "LOGIN": {
+    "TITLE": "Enter your data",
+    "DESCRIPTION": "Integrated System of Affiliations in the Field.",
+    "FORM": {
+      "EMAIL": "Email",
+      "PASSWORD": "Password",
+      "BUTTON": "Sign in",
+      "ERROR": {
+        "EMAIL": {
+          "REQUIRED": "Email is required.",
+          "INVALID": "Email is not valid."
+        },
+        "PASSWORD": {
+          "REQUIRED": "Password is required.",
+          "INVALID": "The minimum of characters is 5."
+        }
+      }
+    },
+    "ERROR": "Unable to sign in. Please check your account information and try again."
+  },
+  "LOGOUT": {
+    "TITLE": "Log out",
+    "DESCRIPTION": "Are you sure you want to log out?",
+    "CANCEL": "Cancel",
+    "OK": "Ok"
+  },
+  "STEP": {
+    "EXIT": "Exit",
+    "SEARCH": {
+      "TITLE": "Step 1: Search in lists",
+      "TOOLTIP": "List validation",
+      "FORM": {
+        "TYPE_REQUEST": {
+          "LABEL": "Request type",
+          "CREDIT": "Credit",
+          "PREPAID": "Prepaid",
+          "DELIVERY": "Upon delivery"
+        },
+        "TYPE_DOC": {
+          "LABEL": "Document type",
+          "DOCUMENT": "Identification card",
+          "FOREIGN": "Foreign identification card"
+        },
+        "DOCUMENT": "Document number",
+        "BUTTON": "Process",
+        "ERROR": {
+          "FOREIGN": "The foreign document can not opt ​​for credits.",
+          "DOCUMENT": {
+            "REQUIRED": "Document is required.",
+            "PATTERN": "Invalid Document.",
+            "MIN": "The minimum of characters is 5.",
+            "MAX": "The maximum of characters is 11."
+          }
+        }
+      },
+      "ERROR": {
+        "VALIDATION": "The process can not be finalized.",
+        "ERROR": "Search error!",
+        "MSG": "Enter the ID number to start the process!"
+      }
+    },
+    "VALIDATION": {
+      "TITLE": "Step 2: Identity validation",
+      "TOOLTIP": "Identity validation",
+      "FORM": {
+        "LAST_NAME": "First last name",
+        "EXPEDITION": {
+          "LABEL": "Document expedition date",
+          "CANCEL": "Cancel",
+          "DONE": "Done"
+        },
+        "BUTTON": "Process",
+        "ERROR": {
+          "LAST_NAME": {
+            "REQUIRED": "Last name is required.",
+            "MIN": "The minimum of characters is 2.",
+            "MAX": "The maximum of characters is 10."
+          }
+        }
+      }
+    },
+    "RISK": {
+      "TITLE": "Step 2: Risk analysis",
+      "TOOLTIP": "Validation questions",
+      "VALID": "Valid user to follow.",
+      "AGAIN": "Again",
+      "FORM": {
+        "BUTTON": "Process"
+      },
+      "ERROR": {
+        "QUESTION": "Error in validation questions.",
+        "FIRST_TRY": "Attempts: 1 of 2.",
+        "SECOND_TRY": "Attempts: 2 of 2.",
+        "BLOCKED_DAY": "Blocked for a day.",
+        "BLOCK": "Contact the administrator."
+      }
+    },
+    "SCORE": {
+      "TITLE": "Step 3: Score",
+      "TOOLTIP": "Assignment of quota",
+      "PREPAID": "Prepaid",
+      "DELIVERY": "Upon delivery",
+      "CONGRATULATIONS": "CONGRATULATIONS!",
+      "ASSIGEND": "Your allocated quota is:",
+      "FORM": {
+        "BUTTON": "Next"
+      },
+      "ERROR": {
+        "INVALID": "Invalid user.",
+        "MSG": "You can not continue with the appointment."
+      }
+    },
+    "QUESTION": {
+      "TITLE": "Step 4: Personal questions",
+      "TOOLTIP": "Form",
+      "NEW": "New",
+      "RE_ENTRY": "Re-entry",
+      "CREDIT": "Credit",
+      "PREPAID": "Prepaid",
+      "DELIVERY": "Upon delivery",
+      "DOCUMENT": "Identification card",
+      "FOREIGN": "Foreign identification card",
+      "CAMPAIGN_DEFAULT": "Incorporation campaign",
+      "FORM": {
+        "STATUS": "Status",
+        "TYPE_REQUEST": "Request type",
+        "CAMPAIGN": "Campaign",
+        "TODAY": "Elaboration date",
+        "TYPE_DOC": "Document type",
+        "DOCUMENT": "Document number",
+        "ZONE": "Zone",
+        "FIRST_NAME": "Names",
+        "LAST_NAME": "Last names",
+        "GENRE": {
+          "LABEL": "Genre",
+          "MALE": "Male",
+          "FEMALE": "Female"
+        },
+        "BIRTHDATE": {
+          "LABEL": "Birthdate",
+          "CANCEL": "Cancel",
+          "DONE": "Done"
+        },
+        "EMAIL": "Email",
+        "DIRECTION": "Direction",
+        "DIRECTION_OPTIONAL": "Suitable, tower, interior",
+        "NEIGHBORHOOD": "Neighborhood",
+        "PHONE": "Phone",
+        "CELLPHONE": "Cell phone",
+        "DEPARTMENT": "Department",
+        "CITY": "City",
+        "LIVING_PLACE": {
+          "LABEL": "Living place",
+          "OWN": "Own",
+          "LEASED": "Leased"
+        },
+        "LESSOR": {
+          "NAME": "Lessor name",
+          "PHONE": "Lessor phone",
+          "CELL": "Lessor cell phone"
+        },        
+        "SELLER": "Sell ​​other catalogs? Which?",
+        "REFERRAL": {
+          "NAME": "Family referral",
+          "DEPARTMENT": "Family referal department",
+          "CITY": "Family referal city",
+          "PHONE": "Family referal phone"
+        },        
+        "SPONSOR": {
+          "TITLE": "Data of sponsor",
+          "TYPE_DOC": {
+            "LABEL": "Document type",
+            "DOCUMENT": "Identification card",
+            "FOREIGN": "Foreign identification card"
+          },
+          "DOCUMENT": "Businesswoman / Director document",
+          "NAME": "Businesswoman name",
+          "RANK": "Honorific rank"
+        },        
+        "REFERS": {
+          "TITLE": "Data of who refers",
+          "TYPE_DOC": {
+            "LABEL": "Document type",
+            "DOCUMENT": "Identification card",
+            "FOREIGN": "Foreign identification card"
+          },
+          "DOCUMENT": "Referar document",
+          "NAME": "Names",
+          "RANK": "Honorific rank"
+        },        
+        "BUTTON": "Send",
+        "ERROR": {
+          "FIRST_NAME": {
+            "REQUIRED": "First name is required.",
+            "MIN": "The minimum of characters is 2.",
+            "MAX": "The maximum of characters is 25."
+          },
+          "LAST_NAME": {
+            "REQUIRED": "Last name is required.",
+            "MIN": "The minimum of characters is 2.",
+            "MAX": "The maximum of characters is 25."
+          },
+          "EMAIL": {
+            "REQUIRED": "Email is required.",
+            "INVALID": "Email is not valid."
+          },
+          "DIRECTION_OPTIONAL": {
+            "REQUIRED": "Direction is required.",
+            "INVALID": "Direction is not valid."
+          },
+          "PHONE": {
+            "REQUIRED": "Phone is required.",
+            "INVALID": "Phone is not valid.",
+            "MIN": "The minimum of characters is 7.",
+            "MAX": "The maximum of characters is 10."
+          },
+          "CELLPHONE": {
+            "REQUIRED": "Cell phone is required.",
+            "INVALID": "Cell phone is not valid.",
+            "MIN": "The minimum of characters is 10.",
+            "MAX": "The maximum of characters is 15."
+          },
+          "LESSOR": {
+            "PHONE": {
+              "REQUIRED": "Phone is required.",
+              "INVALID": "Phone is not valid.",
+              "MIN": "The minimum of characters is 7.",
+              "MAX": "The maximum of characters is 10."
+            },
+            "CELL": {
+              "REQUIRED": "Cell phone is required.",
+              "INVALID": "Cell phone is not valid.",
+              "MIN": "The minimum of characters is 10.",
+              "MAX": "The maximum of characters is 15."
+            }
+          },          
+          "REFERRAL": {
+            "PHONE": {
+              "REQUIRED": "Phone is required.",
+              "INVALID": "Phone is not valid.",
+              "MIN": "The minimum of characters is 7.",
+              "MAX": "The maximum of characters is 10."
+            }            
+          },
+          "SPONSOR": {
+            "DOCUMENT": {
+              "REQUIRED": "Document is required.",
+              "MIN": "The minimum of characters is 5.",
+              "MAX": "The maximum of characters is 11."
+            }
+          },
+          "REFERS": {
+            "DOCUMENT": {
+              "REQUIRED": "Document is required.",
+              "MIN": "The minimum of characters is 5.",
+              "MAX": "The maximum of characters is 11."
+            }
+          }
+        }
+      },
+      "ERROR": {
+        "NOT_FOUND": "The user could not be found",
+        "RANK_NOT_FOUND": "The user does not have a valid honorific rank",
+        "INVALID_ZONE": "This user does not belong to this area",
+        "FILE_TITLE": "Error loading the file.",
+        "FILE_MSG": "Only PDF files are allowed."
+      }
+    },
+    "FILE": {
+      "TITLE": "Step 5: Supports",
+      "TOOLTIP": "Attach file",
+      "FORM": {
+        "CHOOSE_FILE": "Choose file",
+        "FILE": "File",
+        "BUTTON": "Send"
+      },
+      "ERROR": "Error uploading the file"
+    },
+    "END": {
+      "TITLE": "Final step: Congratulations",
+      "FINISH": "Process completed with Success.",
+      "SCORE": "Quota"
+    }
+  }  
+}

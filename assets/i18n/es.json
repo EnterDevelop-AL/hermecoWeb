@@ -1,0 +1,297 @@
+{
+  "ALERT_TITLE": "Estimado Usuario, recuerde que solo posee 30 días para culminar el nombramiento",
+  "BACK_BUTTON_TEXT": "Atras",
+  "LOADING": "Cargando...",
+  "ERROR": "Error!",  
+  "OK": "Ok",
+  "CONFIRM": "Corfirmar",
+  "AGREE": "De acuerdo",
+  "SESSION": {
+    "ERROR": "Error de sesión!",
+    "MSG": "Su sesión ha expirado, inicie sesión de nuevo"
+  },
+  "LOGIN": {
+    "TITLE": "Ingrese sus datos",
+    "DESCRIPTION": "Sistema Integrado de Afiliaciones en Campo.",
+    "FORM": {
+      "EMAIL": "Email",
+      "PASSWORD": "Contraseña",
+      "BUTTON": "Iniciar sesión",
+      "ERROR": {
+        "EMAIL": {
+          "REQUIRED": "El email es requerido.",
+          "INVALID": "El email ingresado no es valido."
+        },
+        "PASSWORD": {
+          "REQUIRED": "La contraseña es requerida.",
+          "INVALID": "El mínimo de caracteres es de 5."
+        }
+      }
+    },
+    "ERROR": "No se ha podido iniciar sesión. Por favor revisa la información de la cuenta e inténtalo de nuevo."
+  },
+  "LOGOUT": {
+    "TITLE": "Cerrar sesión",
+    "DESCRIPTION": "¿Estás seguro de que quieres desconectarte?",
+    "CANCEL": "Cancelar",
+    "OK": "Ok"
+  },
+  "STEP": {
+    "EXIT": "Salir",
+    "SEARCH": {
+      "TITLE": "Paso 1: Búsqueda en listas",
+      "TOOLTIP": "Validación en listas",
+      "FORM": {
+        "TYPE_REQUEST": {
+          "LABEL": "Tipo de solicitud",
+          "CREDIT": "Crédito",
+          "PREPAID": "Pago anticipado",
+          "DELIVERY": "Contra entrega"
+        },
+        "TYPE_DOC": {
+          "LABEL": "Tipo de documento",
+          "DOCUMENT": "Cédula",
+          "FOREIGN": "Cédula extranjería"
+        },
+        "DOCUMENT": "Número de documento",
+        "BUTTON": "Procesar",
+        "ERROR": {
+          "FOREIGN": "El documento extranjero no puede optar por créditos.",
+          "DOCUMENT": {
+            "REQUIRED": "El documento es requerido.",
+            "PATTERN": "El documento es invalido.",
+            "MIN": "El mínimo de caracteres es de 5.",
+            "MAX": "El máximo de caracteres es de 11."
+          }
+        }
+      },
+      "ERROR": {
+        "VALIDATION": "El proceso no puede ser finalizado.",
+        "ERROR": "Error en la busqueda!",
+        "MSG": "ingrese el número de cédula para iniciar el proceso!"
+      }
+    },
+    "VALIDATION": {
+      "TITLE": "Paso 2: Validación de identidad",
+      "TOOLTIP": "Validación de identidad",
+      "FORM": {
+        "LAST_NAME": "Primer apellido",
+        "EXPEDITION": {
+          "LABEL": "Fecha de expedición documento",
+          "CANCEL": "Cancelar",
+          "DONE": "Hecho"
+        },
+        "BUTTON": "Procesar",
+        "ERROR": {
+          "LAST_NAME": {
+            "REQUIRED": "El primer apellido es requerido.",
+            "MIN": "El mínimo de caracteres es de 2.",
+            "MAX": "El máximo de caracteres es de 10."
+          }
+        }
+      }
+    },
+    "RISK": {
+      "TITLE": "Paso 2: Análisis de riesgo",
+      "TOOLTIP": "Preguntas de validación",
+      "VALID": "Usuario válido para seguir.",
+      "AGAIN": "Otra vez",
+      "FORM": {
+        "BUTTON": "Procesar"
+      },
+      "ERROR": {
+        "QUESTION": "Error en las preguntas de validación.",
+        "FIRST_TRY": "Intentos : 1 de 2.",
+        "SECOND_TRY": "Intentos: 2 de 2.",
+        "BLOCKED_DAY": "Bloqueado por un día.",
+        "BLOCK": "Intente de nuevo mañana."
+      }
+    },
+    "SCORE": {
+      "TITLE": "Paso 3: Puntaje",
+      "TOOLTIP": "Asignación de cupo",
+      "PREPAID": "Pago anticipado",
+      "DELIVERY": "Contra entrega",
+      "CONGRATULATIONS": "FELICITACIONES!",
+      "ASSIGEND": "Su cupo asignado es de:",
+      "FORM": {
+        "BUTTON": "Seguir"
+      },
+      "ERROR": {
+        "INVALID": "Usuario invalido.",
+        "MSG": "No puede continuar con el nombramiento."
+      }
+    },
+    "QUESTION": {
+      "TITLE": "Paso 4: Preguntas personales",
+      "TOOLTIP": "Formulario",
+      "NEW": "Nuevo",
+      "RE_ENTRY": "Reingreso",
+      "CREDIT": "Crédito",
+      "PREPAID": "Pago anticipado",
+      "DELIVERY": "Contra entrega",
+      "DOCUMENT": "Cédula",
+      "FOREIGN": "Cédula extranjería",
+      "CAMPAIGN_DEFAULT": "Campaña incorporación",
+      "FORM": {
+        "STATUS": "Estado",
+        "TYPE_REQUEST": "Tipo de solicitud",
+        "CAMPAIGN": "Campaña",
+        "TODAY": "Fecha de elaboración",
+        "TYPE_DOC": "Tipo de documento",
+        "DOCUMENT": "Número de documento",
+        "ZONE": "Zona",
+        "FIRST_NAME": "Nombres",
+        "LAST_NAME": "Apellidos",
+        "GENRE": {
+          "LABEL": "Género",
+          "MALE": "Masculino",
+          "FEMALE": "Femenino"
+        },
+        "BIRTHDATE": {
+          "LABEL": "Fecha de nacimiento",
+          "CANCEL": "Cancelar",
+          "DONE": "Hecho"
+        },
+        "EMAIL": "Email",
+        "DIRECTION": "Dirección",
+        "DIRECTION_OPTIONAL": "Apto, torre, interior",
+        "NEIGHBORHOOD": "Barrio",
+        "PHONE": "Teléfono",
+        "CELLPHONE": "Teléfono movil",
+        "DEPARTMENT": "Departamento",
+        "CITY": "Ciudad",
+        "LIVING_PLACE": {
+          "LABEL": "Vivienda",
+          "OWN": "Propia",
+          "LEASED": "Arrendada"
+        },
+        "LESSOR": {
+          "NAME": "Nombre arrendador",
+          "PHONE": "Teléfono arrendador",
+          "CELL": "Teléfono movil arrendador"
+        },        
+        "SELLER": "Vende otros catálogos? Cuales?",
+        "REFERRAL": {
+          "NAME": "Referencia Familiar",
+          "DEPARTMENT": "Departamento Referencia Familiar",
+          "CITY": "Ciudad Referencia Familiar",
+          "PHONE": "Teléfono Referencia Familiar"
+        },
+        "SPONSOR": {
+          "TITLE": "Datos del patrocinador",
+          "TYPE_DOC": {
+            "LABEL": "Tipo de documento",
+            "DOCUMENT": "Cédula",
+            "FOREIGN": "Cédula extranjería"
+          },
+          "DOCUMENT": "Documento Empresaria / Directora",
+          "NAME": "Nombre Empresaria",
+          "RANK": "Rango honorífico"
+        },        
+        "REFERS": {
+          "TITLE": "Datos de quien refiere",
+          "TYPE_DOC": {
+            "LABEL": "Tipo de documento",
+            "DOCUMENT": "Cédula",
+            "FOREIGN": "Cédula extranjería"
+          },
+          "DOCUMENT": "Documento Referente",
+          "NAME": "Nombres",
+          "RANK": "Rango honorífico"
+        },        
+        "BUTTON": "Enviar",
+        "ERROR": {
+          "FIRST_NAME": {
+            "REQUIRED": "El nombre es requerido.",
+            "MIN": "El mínimo de caracteres es de 2.",
+            "MAX": "El máximo de caracteres es de 25."
+          },
+          "LAST_NAME": {
+            "REQUIRED": "El apellido es requerido.",
+            "MIN": "El mínimo de caracteres es de 2.",
+            "MAX": "El máximo de caracteres es de 25."
+          },
+          "EMAIL": {
+            "REQUIRED": "El email es requerido.",
+            "INVALID": "El email ingresado no es valido."
+          },
+          "DIRECTION_OPTIONAL": {
+            "REQUIRED": "La dirección es requerido.",
+            "INVALID": "La dirección ingresada no es valido."
+          },
+          "PHONE": {
+            "REQUIRED": "El teléfono es requerido.",
+            "INVALID": "El teléfono ingresado no es valido.",
+            "MIN": "El mínimo de caracteres es de 7.",
+            "MAX": "El máximo de caracteres es de 10."
+          },
+          "CELLPHONE": {
+            "REQUIRED": "El teléfono movil es requerido.",
+            "INVALID": "El teléfono movil ingresado no es valido.",
+            "MIN": "El mínimo de caracteres es de 10.",
+            "MAX": "El máximo de caracteres es de 15."
+          },
+          "LESSOR": {
+            "PHONE": {
+              "REQUIRED": "El teléfono es requerido.",
+              "INVALID": "El teléfono ingresado no es valido.",
+              "MIN": "El mínimo de caracteres es de 7.",
+              "MAX": "El máximo de caracteres es de 10."
+            },
+            "CELL": {
+              "REQUIRED": "El teléfono movil es requerido.",
+              "INVALID": "El teléfono movil ingresado no es valido.",
+              "MIN": "El mínimo de caracteres es de 10.",
+              "MAX": "El máximo de caracteres es de 15."
+            }
+          },          
+          "REFERRAL": {
+            "PHONE": {
+              "REQUIRED": "El teléfono es requerido.",
+              "INVALID": "El teléfono ingresado no es valido.",
+              "MIN": "El mínimo de caracteres es de 7.",
+              "MAX": "El máximo de caracteres es de 10."
+            }            
+          },
+          "SPONSOR": {
+            "DOCUMENT": {
+              "REQUIRED": "El documento es requerido.",
+              "MIN": "El mínimo de caracteres es de 5.",
+              "MAX": "El máximo de caracteres es de 11."
+            }
+          },
+          "REFERS": {
+            "DOCUMENT": {
+              "REQUIRED": "El documento es requerido.",
+              "MIN": "El mínimo de caracteres es de 5.",
+              "MAX": "El máximo de caracteres es de 11."
+            }
+          }
+        }
+      },
+      "ERROR": {
+        "NOT_FOUND": "El usuario no pudo ser encontrado",
+        "RANK_NOT_FOUND": "El usuario no tiene un rango honorifico válido",
+        "INVALID_ZONE": "Este usuario no pertenece a esta zona",
+        "FILE_TITLE": "Error cargando el archivo.",
+        "FILE_MSG": "Sólo se permiten archivo en PDF."
+      }
+    },
+    "FILE": {
+      "TITLE": "Paso 5: Soportes",
+      "TOOLTIP": "Adjuntar archivo",
+      "FORM": {
+        "CHOOSE_FILE": "Elegir archivo",
+        "FILE": "Archivo",
+        "BUTTON": "Enviar"
+      },
+      "ERROR": "Error subiendo el archivo"
+    },
+    "END": {
+      "TITLE": "Paso Final: Felicitaciones",
+      "FINISH": "Proceso completado con exito.",
+      "SCORE": "Cupo"
+    }
+  }  
+}
