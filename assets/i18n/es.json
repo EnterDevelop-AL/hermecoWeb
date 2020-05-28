@@ -275,7 +275,8 @@
         "RANK_NOT_FOUND": "El usuario no tiene un rango honorifico válido",
         "INVALID_ZONE": "Este usuario no pertenece a esta zona",
         "FILE_TITLE": "Error cargando el archivo.",
-        "FILE_MSG": "Sólo se permiten archivo en PDF."
+        "FILE_MSG": "Sólo se permiten archivo en PDF.",
+        "FILE_EMPTY": "Debe de seleccionar al menos un archivo."
       }
     },
     "FILE": {

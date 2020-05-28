@@ -275,7 +275,8 @@
         "RANK_NOT_FOUND": "The user does not have a valid honorific rank",
         "INVALID_ZONE": "This user does not belong to this area",
         "FILE_TITLE": "Error loading the file.",
-        "FILE_MSG": "Only PDF files are allowed."
+        "FILE_MSG": "Only PDF files are allowed.",
+        "FILE_EMPTY": "You must select at least one file."
       }
     },
     "FILE": {

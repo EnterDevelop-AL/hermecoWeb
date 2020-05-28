@@ -20552,11 +20552,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 /**
  * Class SearchPage
  */
 var SearchPage = /** @class */ (function () {
-    function SearchPage(user, navParams, navCtrl, nomination, formBuilder, alertCtrl, toastCtrl, loadingCtrl, translateService, fileChooser, modalCtrl, filePath, fileObject) {
+    function SearchPage(user, navParams, navCtrl, nomination, formBuilder, alertCtrl, toastCtrl, loadingCtrl, translateService, fileChooser, modalCtrl, filePath, fileObject, platform) {
         var _this = this;
         this.user = user;
         this.navParams = navParams;
@@ -20571,66 +20572,72 @@ var SearchPage = /** @class */ (function () {
         this.modalCtrl = modalCtrl;
         this.filePath = filePath;
         this.fileObject = fileObject;
+        this.platform = platform;
         this.process_step = 0;
         this.show_living_place = false;
         this.show_business = false;
         this.show_referrer = false;
         this.disable_input = false;
-        this.today = __WEBPACK_IMPORTED_MODULE_0_moment___default()().format('DD/MM/YYYY');
-        this.translateService.get([
-            'LOADING',
-            'ERROR',
-            'SESSION.ERROR',
-            'SESSION.MSG',
-            'LOGOUT.TITLE',
-            'LOGOUT.DESCRIPTION',
-            'LOGOUT.CANCEL',
-            'LOGOUT.OK',
-            'OK',
-            'STEP.SEARCH.ERROR.ERROR',
-            'STEP.SEARCH.ERROR.MSG',
-            'STEP.QUESTION.CREDIT',
-            'STEP.QUESTION.PREPAID',
-            'STEP.QUESTION.DELIVERY',
-            'STEP.QUESTION.CAMPAIGN_DEFAULT',
-            'STEP.QUESTION.DOCUMENT',
-            'STEP.QUESTION.FOREIGN',
-            'STEP.QUESTION.FORM.DIRECTION',
-            'STEP.FILE.ERROR',
-            'STEP.QUESTION.NEW',
-            'STEP.QUESTION.RE_ENTRY',
-            'ALERT_TITLE',
-            'STEP.QUESTION.ERROR.NOT_FOUND',
-            'STEP.QUESTION.ERROR.RANK_NOT_FOUND',
-            'STEP.QUESTION.ERROR.INVALID_ZONE',
-            'STEP.QUESTION.ERROR.FILE_TITLE',
-            'STEP.QUESTION.ERROR.FILE_MSG',
-        ]).subscribe(function (value) {
-            _this.errorString = value['ERROR'];
-            _this.loadingString = value['LOADING'];
-            _this.logoutTitleString = value['LOGOUT.TITLE'];
-            _this.logoutDescriptionString = value['LOGOUT.DESCRIPTION'];
-            _this.logoutButtonCancelString = value['LOGOUT.CANCEL'];
-            _this.logoutButtonOkString = value['LOGOUT.OK'];
-            _this.alertOkButtonString = value['OK'];
-            _this.searchErrorString = value['STEP.SEARCH.ERROR.ERROR'];
-            _this.searchErrorMsgString = value['STEP.SEARCH.ERROR.MSG'];
-            _this.creditString = value['STEP.QUESTION.CREDIT'];
-            _this.prepaidString = value['STEP.QUESTION.PREPAID'];
-            _this.deliveryString = value['STEP.QUESTION.DELIVERY'];
-            _this.campaignString = value['STEP.QUESTION.CAMPAIGN_DEFAULT'];
-            _this.nationalString = value['STEP.QUESTION.DOCUMENT'];
-            _this.foreignString = value['STEP.QUESTION.FOREIGN'];
-            _this.directionString = value['STEP.QUESTION.FORM.DIRECTION'];
-            _this.errorFile = value['STEP.FILE.ERROR'];
-            _this.newString = value['STEP.QUESTION.NEW'];
-            _this.reentryString = value['STEP.QUESTION.RE_ENTRY'];
-            _this.alertString = value['ALERT_TITLE'];
-            _this.notFountString = value['STEP.QUESTION.ERROR.NOT_FOUND'];
-            _this.invalidRankString = value['STEP.QUESTION.ERROR.RANK_NOT_FOUND'];
-            _this.invalidZoneString = value['STEP.QUESTION.ERROR.INVALID_ZONE'];
-            _this.fileErrorString = value['STEP.QUESTION.ERROR.FILE_TITLE'];
-            _this.fileErrorMsgString = value['STEP.QUESTION.ERROR.FILE_MSG'];
+        this.runningBrowser = false;
+        this.today = __WEBPACK_IMPORTED_MODULE_0_moment___default()().format("DD/MM/YYYY");
+        this.translateService
+            .get([
+            "LOADING",
+            "ERROR",
+            "SESSION.ERROR",
+            "SESSION.MSG",
+            "LOGOUT.TITLE",
+            "LOGOUT.DESCRIPTION",
+            "LOGOUT.CANCEL",
+            "LOGOUT.OK",
+            "OK",
+            "STEP.SEARCH.ERROR.ERROR",
+            "STEP.SEARCH.ERROR.MSG",
+            "STEP.QUESTION.CREDIT",
+            "STEP.QUESTION.PREPAID",
+            "STEP.QUESTION.DELIVERY",
+            "STEP.QUESTION.CAMPAIGN_DEFAULT",
+            "STEP.QUESTION.DOCUMENT",
+            "STEP.QUESTION.FOREIGN",
+            "STEP.QUESTION.FORM.DIRECTION",
+            "STEP.FILE.ERROR",
+            "STEP.QUESTION.NEW",
+            "STEP.QUESTION.RE_ENTRY",
+            "ALERT_TITLE",
+            "STEP.QUESTION.ERROR.NOT_FOUND",
+            "STEP.QUESTION.ERROR.RANK_NOT_FOUND",
+            "STEP.QUESTION.ERROR.INVALID_ZONE",
+            "STEP.QUESTION.ERROR.FILE_TITLE",
+            "STEP.QUESTION.ERROR.FILE_MSG",
+            "STEP.QUESTION.ERROR.FILE_EMPTY",
+        ])
+            .subscribe(function (value) {
+            _this.errorString = value["ERROR"];
+            _this.loadingString = value["LOADING"];
+            _this.logoutTitleString = value["LOGOUT.TITLE"];
+            _this.logoutDescriptionString = value["LOGOUT.DESCRIPTION"];
+            _this.logoutButtonCancelString = value["LOGOUT.CANCEL"];
+            _this.logoutButtonOkString = value["LOGOUT.OK"];
+            _this.alertOkButtonString = value["OK"];
+            _this.searchErrorString = value["STEP.SEARCH.ERROR.ERROR"];
+            _this.searchErrorMsgString = value["STEP.SEARCH.ERROR.MSG"];
+            _this.creditString = value["STEP.QUESTION.CREDIT"];
+            _this.prepaidString = value["STEP.QUESTION.PREPAID"];
+            _this.deliveryString = value["STEP.QUESTION.DELIVERY"];
+            _this.campaignString = value["STEP.QUESTION.CAMPAIGN_DEFAULT"];
+            _this.nationalString = value["STEP.QUESTION.DOCUMENT"];
+            _this.foreignString = value["STEP.QUESTION.FOREIGN"];
+            _this.directionString = value["STEP.QUESTION.FORM.DIRECTION"];
+            _this.errorFile = value["STEP.FILE.ERROR"];
+            _this.newString = value["STEP.QUESTION.NEW"];
+            _this.reentryString = value["STEP.QUESTION.RE_ENTRY"];
+            _this.alertString = value["ALERT_TITLE"];
+            _this.notFountString = value["STEP.QUESTION.ERROR.NOT_FOUND"];
+            _this.invalidRankString = value["STEP.QUESTION.ERROR.RANK_NOT_FOUND"];
+            _this.invalidZoneString = value["STEP.QUESTION.ERROR.INVALID_ZONE"];
+            _this.fileErrorString = value["STEP.QUESTION.ERROR.FILE_TITLE"];
+            _this.fileErrorMsgString = value["STEP.QUESTION.ERROR.FILE_MSG"];
+            _this.fileErrorMsgEmptyString = value["STEP.QUESTION.ERROR.FILE_EMPTY"];
         });
         this.selectOptions = {
             title: this.directionString,
@@ -20648,16 +20655,19 @@ var SearchPage = /** @class */ (function () {
     };
     SearchPage.prototype.ionViewWillLoad = function () {
         this.search_form = this.formBuilder.group({
-            document: ['', __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([
+            document: [
+                "",
+                __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([
                     __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].minLength(5),
                     __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].maxLength(11),
-                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].pattern('[0-9]*'),
-                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required
-                ])],
-            document_type: ['', __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
-            payment_type: ['', __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
+                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].pattern("[0-9]*"),
+                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required,
+                ]),
+            ],
+            document_type: ["", __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
+            payment_type: ["", __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
         }, {
-            validator: this.bussiness_level('document_type', 'payment_type')
+            validator: this.bussiness_level("document_type", "payment_type"),
         });
     };
     /**
@@ -20680,31 +20690,31 @@ var SearchPage = /** @class */ (function () {
         else {
             this.showLoader(this.loadingString);
             this.nomination.hermeco(this.document, type).subscribe(function (result) {
-                if (result['Success'] == 1) {
-                    var status = result['UserInfo']['StatusDescrition'];
-                    if (status == 'Activo' || status == 'Deshabilitado')
-                        _this.status = '1';
+                if (result["Success"] == 1) {
+                    var status = result["UserInfo"]["StatusDescrition"];
+                    if (status == "Activo" || status == "Deshabilitado")
+                        _this.status = "1";
                     else
-                        _this.status = '0';
+                        _this.status = "0";
                 }
                 else {
-                    _this.status = '0';
+                    _this.status = "0";
                 }
                 var body = new __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["e" /* HttpParams */]()
-                    .append('UserName', _this.username)
-                    .append('Document', _this.document)
-                    .append('TypeDocument', _this.document_type)
-                    .append('Consult', 'true')
-                    .append('PaymentType', _this.payment_type);
+                    .append("UserName", _this.username)
+                    .append("Document", _this.document)
+                    .append("TypeDocument", _this.document_type)
+                    .append("Consult", "true")
+                    .append("PaymentType", _this.payment_type);
                 _this.nomination.consult(body).subscribe(function (result) {
-                    if (result['UserData']) {
+                    if (result["UserData"]) {
                         _this.process(result);
                         _this.loading.dismiss();
                     }
                     else {
-                        if (result['Success'] == 0) {
+                        if (result["Success"] == 0) {
                             _this.loading.dismiss();
-                            _this.showAlert(_this.errorString, result['Message']);
+                            _this.showAlert(_this.errorString, result["Message"]);
                         }
                     }
                 }, function (error) {
@@ -20729,13 +20739,13 @@ var SearchPage = /** @class */ (function () {
         this.expedition_date = this.validation_form.value.expedition_date;
         this.showLoader(this.loadingString);
         var body = new __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["e" /* HttpParams */]()
-            .append('UserName', this.username)
-            .append('Document', this.document)
-            .append('TypeDocument', this.document_type)
-            .append('Consult', 'false')
-            .append('PaymentType', this.payment_type)
-            .append('ExpeditionDate', __WEBPACK_IMPORTED_MODULE_0_moment___default()(this.expedition_date).format("DD/MM/YYYY"))
-            .append('LastName', this.first_last_name.toUpperCase());
+            .append("UserName", this.username)
+            .append("Document", this.document)
+            .append("TypeDocument", this.document_type)
+            .append("Consult", "false")
+            .append("PaymentType", this.payment_type)
+            .append("ExpeditionDate", __WEBPACK_IMPORTED_MODULE_0_moment___default()(this.expedition_date).format("DD/MM/YYYY"))
+            .append("LastName", this.first_last_name.toUpperCase());
         this.nomination.validator(body).subscribe(function (result) {
             _this.process(result);
             _this.loading.dismiss();
@@ -20756,13 +20766,13 @@ var SearchPage = /** @class */ (function () {
         });
         this.showLoader(this.loadingString);
         var body = new __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["e" /* HttpParams */]()
-            .append('UserName', this.username)
-            .append('Document', this.document)
-            .append('TypeDocument', this.document_type)
-            .append('Consult', 'false')
-            .append('PaymentType', this.payment_type)
-            .append('Questionnaire', this.questionnaire)
-            .append('QuestionOptionId', JSON.stringify(answers));
+            .append("UserName", this.username)
+            .append("Document", this.document)
+            .append("TypeDocument", this.document_type)
+            .append("Consult", "false")
+            .append("PaymentType", this.payment_type)
+            .append("Questionnaire", this.questionnaire)
+            .append("QuestionOptionId", JSON.stringify(answers));
         this.nomination.validator(body).subscribe(function (result) {
             _this.process(result);
             _this.loading.dismiss();
@@ -20778,11 +20788,11 @@ var SearchPage = /** @class */ (function () {
         var _this = this;
         this.showLoader(this.loadingString);
         var body = new __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["e" /* HttpParams */]()
-            .append('UserName', this.username)
-            .append('Document', this.document)
-            .append('TypeDocument', this.document_type)
-            .append('Consult', 'false')
-            .append('PaymentType', this.payment_type);
+            .append("UserName", this.username)
+            .append("Document", this.document)
+            .append("TypeDocument", this.document_type)
+            .append("Consult", "false")
+            .append("PaymentType", this.payment_type);
         this.nomination.next(body).subscribe(function (result) {
             _this.process(result);
             _this.loading.dismiss();
@@ -20887,151 +20897,231 @@ var SearchPage = /** @class */ (function () {
             this.process_step = 10;
         }
         this.validation_form = this.formBuilder.group({
-            expedition_date: ['', __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
-            first_last_name: ['', __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([
+            expedition_date: ["", __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
+            first_last_name: [
+                "",
+                __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([
                     __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].minLength(2),
                     __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].maxLength(20),
-                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required
-                ])],
+                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required,
+                ]),
+            ],
         });
         this.validation_form.setValue({
             expedition_date: [],
             first_last_name: [],
         });
         this.user_form = this.formBuilder.group({
-            status: [{
+            status: [
+                {
                     value: this.status,
-                    disabled: true
-                }, __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
-            payment_type: [{
+                    disabled: true,
+                },
+                __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required,
+            ],
+            payment_type: [
+                {
                     value: this.payment_type,
-                    disabled: true
-                }, __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
-            campaign: [{
+                    disabled: true,
+                },
+                __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required,
+            ],
+            campaign: [
+                {
                     value: this.campaign,
-                    disabled: true
-                }, __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
-            today: [{
+                    disabled: true,
+                },
+                __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required,
+            ],
+            today: [
+                {
                     value: this.today,
-                    disabled: true
-                }, __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
-            document_type: [{
+                    disabled: true,
+                },
+                __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required,
+            ],
+            document_type: [
+                {
                     value: this.document_type,
-                    disabled: true
-                }, __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
-            document: [{
+                    disabled: true,
+                },
+                __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required,
+            ],
+            document: [
+                {
                     value: this.document,
-                    disabled: true
-                }, __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
-            zone: [{
+                    disabled: true,
+                },
+                __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required,
+            ],
+            zone: [
+                {
                     value: this.zone,
-                    disabled: true
-                }, __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
-            first_name: [{
+                    disabled: true,
+                },
+                __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required,
+            ],
+            first_name: [
+                {
                     value: this.first_name,
-                    disabled: this.first_name ? true : false
-                }, __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([
+                    disabled: this.first_name ? true : false,
+                },
+                __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([
                     __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].minLength(2),
                     __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].maxLength(25),
-                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required
-                ])],
-            last_name: [{
+                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required,
+                ]),
+            ],
+            last_name: [
+                {
                     value: this.last_name,
-                    disabled: this.last_name ? true : false
-                }, __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([
+                    disabled: this.last_name ? true : false,
+                },
+                __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([
                     __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].minLength(2),
                     __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].maxLength(25),
-                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required
-                ])],
-            genre: ['', __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
-            birthdate: ['', __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
-            email: ['', __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([
-                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$'),
-                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required
-                ])],
-            direction_one: ['', __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
-            direction_two: ['', __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
-            direction_three: ['', __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
-            direction_four: ['', __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
-            direction_five: ['', __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([
+                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required,
+                ]),
+            ],
+            genre: ["", __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
+            birthdate: ["", __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
+            email: [
+                "",
+                __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([
+                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].pattern("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"),
+                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required,
+                ]),
+            ],
+            direction_one: ["", __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
+            direction_two: ["", __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
+            direction_three: ["", __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
+            direction_four: ["", __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
+            direction_five: [
+                "",
+                __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([
                     __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].pattern("^[a-zA-Z0-9 ,.\u00E0-\u00FC\u00f1\u00d1\u00C0-\u00FF-]+$"),
-                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required
-                ])],
-            neighborhood: ['', __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
-            phone: ['', __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([
-                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].minLength(7),
-                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].maxLength(10)
-                ])],
-            cell_phone: ['', __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([
+                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required,
+                ]),
+            ],
+            neighborhood: ["", __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
+            phone: [
+                "",
+                __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].minLength(7), __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].maxLength(10)]),
+            ],
+            cell_phone: [
+                "",
+                __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([
                     __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].minLength(10),
                     __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].maxLength(15),
-                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required
-                ])],
-            department: ['', __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
-            city: ['', __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
-            living_place: ['', __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
+                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required,
+                ]),
+            ],
+            department: ["", __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
+            city: ["", __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
+            living_place: ["", __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
             lessor_name: [],
-            lessor_phone: ['', [__WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([
+            lessor_phone: [
+                "",
+                [
+                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([
                         __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].minLength(7),
                         __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].maxLength(10),
-                        __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].pattern('[0-9]*')
-                    ])]],
-            lessor_cell_phone: ['', [__WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([
+                        __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].pattern("[0-9]*"),
+                    ]),
+                ],
+            ],
+            lessor_cell_phone: [
+                "",
+                [
+                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([
                         __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].minLength(10),
                         __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].maxLength(15),
-                        __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].pattern('[0-9]*')
-                    ])]],
+                        __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].pattern("[0-9]*"),
+                    ]),
+                ],
+            ],
             catalogs: [],
-            referral: ['', this.payment_type == "1" ? __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required : ''],
-            department_fam: ['', this.payment_type == "1" ? __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required : ''],
-            city_fam: ['', this.payment_type == "1" ? __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required : ''],
-            phone_fam: ['', this.payment_type == "1" ? __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([
-                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].minLength(7),
-                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].maxLength(10),
-                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required
-                ]) : __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([
-                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].minLength(7),
-                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].maxLength(10)
-                ])],
-            business_document_type: ['', __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
-            business_document: ['', __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([
+            referral: ["", this.payment_type == "1" ? __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required : ""],
+            department_fam: ["", this.payment_type == "1" ? __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required : ""],
+            city_fam: ["", this.payment_type == "1" ? __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required : ""],
+            phone_fam: [
+                "",
+                this.payment_type == "1"
+                    ? __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([
+                        __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].minLength(7),
+                        __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].maxLength(10),
+                        __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required,
+                    ])
+                    : __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([
+                        __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].minLength(7),
+                        __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].maxLength(10),
+                    ]),
+            ],
+            business_document_type: ["", __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
+            business_document: [
+                "",
+                __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([
                     __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].minLength(5),
                     __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].maxLength(11),
-                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required
-                ])],
-            business_name: [{
+                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required,
+                ]),
+            ],
+            business_name: [
+                {
                     value: this.business_name,
-                    disabled: true
-                }, __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
-            business_rank: [{
+                    disabled: true,
+                },
+                __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required,
+            ],
+            business_rank: [
+                {
                     value: this.business_rank,
-                    disabled: true
-                }, __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
-            referrer_document_type: ['', __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
-            referrer_document: ['', __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([
+                    disabled: true,
+                },
+                __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required,
+            ],
+            referrer_document_type: ["", __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
+            referrer_document: [
+                "",
+                __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].compose([
                     __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].minLength(5),
                     __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].maxLength(11),
-                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required
-                ])],
-            referrer_name: [{
+                    __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required,
+                ]),
+            ],
+            referrer_name: [
+                {
                     value: this.referrer_name,
-                    disabled: true
-                }, __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
-            referrer_rank: [{
+                    disabled: true,
+                },
+                __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required,
+            ],
+            referrer_rank: [
+                {
                     value: this.referrer_rank,
-                    disabled: true
-                }, __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required],
+                    disabled: true,
+                },
+                __WEBPACK_IMPORTED_MODULE_7__angular_forms__["f" /* Validators */].required,
+            ],
         });
         this.user_form.setValue({
             status: [this.status == "1" ? this.reentryString : this.newString],
-            payment_type: [this.payment_type == "1" ? this.creditString : this.payment_type == "2" ? this.prepaidString : this.deliveryString],
+            payment_type: [
+                this.payment_type == "1"
+                    ? this.creditString
+                    : this.payment_type == "2"
+                        ? this.prepaidString
+                        : this.deliveryString,
+            ],
             campaign: [this.campaign ? this.campaign : this.campaignString],
             today: [this.today],
-            document_type: [this.document_type == "1" ? this.nationalString : this.foreignString],
+            document_type: [
+                this.document_type == "1" ? this.nationalString : this.foreignString,
+            ],
             document: [this.document],
             zone: [this.zone],
-            first_name: (this.first_name ? [this.first_name] : []),
-            last_name: (this.last_name ? [this.last_name] : []),
+            first_name: this.first_name ? [this.first_name] : [],
+            last_name: this.last_name ? [this.last_name] : [],
             genre: [],
             birthdate: [],
             email: [],
@@ -21063,18 +21153,18 @@ var SearchPage = /** @class */ (function () {
             referrer_name: "",
             referrer_rank: "",
         });
-        this.user_form.controls['status'].markAsTouched();
-        this.user_form.controls['payment_type'].markAsTouched();
-        this.user_form.controls['campaign'].markAsTouched();
-        this.user_form.controls['today'].markAsTouched();
-        this.user_form.controls['document_type'].markAsTouched();
-        this.user_form.controls['document'].markAsTouched();
-        this.user_form.controls['zone'].markAsTouched();
+        this.user_form.controls["status"].markAsTouched();
+        this.user_form.controls["payment_type"].markAsTouched();
+        this.user_form.controls["campaign"].markAsTouched();
+        this.user_form.controls["today"].markAsTouched();
+        this.user_form.controls["document_type"].markAsTouched();
+        this.user_form.controls["document"].markAsTouched();
+        this.user_form.controls["zone"].markAsTouched();
         if (this.first_name) {
-            this.user_form.controls['first_name'].markAsTouched();
+            this.user_form.controls["first_name"].markAsTouched();
         }
         if (this.last_name) {
-            this.user_form.controls['last_name'].markAsTouched();
+            this.user_form.controls["last_name"].markAsTouched();
         }
     };
     /**
@@ -21107,15 +21197,15 @@ var SearchPage = /** @class */ (function () {
      */
     SearchPage.prototype.directionChange = function (event) {
         if (event == "NA") {
-            this.user_form.get('direction_two').setValue("N/A");
-            this.user_form.get('direction_three').setValue("N/A");
-            this.user_form.get('direction_four').setValue("N/A");
+            this.user_form.get("direction_two").setValue("N/A");
+            this.user_form.get("direction_three").setValue("N/A");
+            this.user_form.get("direction_four").setValue("N/A");
             this.disable_input = true;
         }
         else {
-            this.user_form.get('direction_two').reset();
-            this.user_form.get('direction_three').reset();
-            this.user_form.get('direction_four').reset();
+            this.user_form.get("direction_two").reset();
+            this.user_form.get("direction_three").reset();
+            this.user_form.get("direction_four").reset();
             this.disable_input = false;
         }
     };
@@ -21129,12 +21219,12 @@ var SearchPage = /** @class */ (function () {
         }
         else {
             this.show_living_place = false;
-            this.user_form.get('lessor_name').reset();
-            this.user_form.get('lessor_name').setValue("");
-            this.user_form.get('lessor_phone').reset();
-            this.user_form.get('lessor_phone').setValue("");
-            this.user_form.get('lessor_cell_phone').reset();
-            this.user_form.get('lessor_cell_phone').setValue("");
+            this.user_form.get("lessor_name").reset();
+            this.user_form.get("lessor_name").setValue("");
+            this.user_form.get("lessor_phone").reset();
+            this.user_form.get("lessor_phone").setValue("");
+            this.user_form.get("lessor_cell_phone").reset();
+            this.user_form.get("lessor_cell_phone").setValue("");
         }
         this.user_form.updateValueAndValidity();
     };
@@ -21157,82 +21247,90 @@ var SearchPage = /** @class */ (function () {
      */
     SearchPage.prototype.search_business = function (value) {
         var _this = this;
-        this.business_document_type = this.user_form.get('business_document_type').value;
+        this.business_document_type = this.user_form.get("business_document_type").value;
         this.showLoader(this.loadingString);
-        this.nomination.hermeco(value, this.business_document_type).subscribe(function (result) {
-            if (result['Success'] == 1) {
-                _this.business_document = result['UserInfo']['Docid'];
-                _this.business_name = result['UserInfo']['Name'];
-                _this.business_rank = result['UserInfo']['Rank'];
-                _this.zone_string = result['UserInfo']['TerritoryName'];
-                var zone_business = _this.zone_string.split(' ');
+        this.nomination
+            .hermeco(value, this.business_document_type)
+            .subscribe(function (result) {
+            if (result["Success"] == 1) {
+                _this.business_document = result["UserInfo"]["Docid"];
+                _this.business_name = result["UserInfo"]["Name"];
+                _this.business_rank = result["UserInfo"]["Rank"];
+                _this.zone_string = result["UserInfo"]["TerritoryName"];
+                var zone_business = _this.zone_string.split(" ");
                 var zone_code = null;
                 var code = null;
                 if (zone_business.length == 2) {
-                    zone_code = zone_business[1].split('(');
-                    zone_code = zone_code[1].split(')');
+                    zone_code = zone_business[1].split("(");
+                    zone_code = zone_code[1].split(")");
                     code = zone_code[0];
                     code = code.substring(0, 3);
                 }
                 else if (zone_business.length == 3) {
-                    zone_code = zone_business[2].split('(');
-                    zone_code = zone_code[1].split(')');
+                    zone_code = zone_business[2].split("(");
+                    zone_code = zone_code[1].split(")");
                     code = zone_code[0];
                     code = code.substring(0, 3);
                 }
                 else if (zone_business.length == 4) {
-                    zone_code = zone_business[3].split('(');
-                    zone_code = zone_code[1].split(')');
+                    zone_code = zone_business[3].split("(");
+                    zone_code = zone_code[1].split(")");
                     code = zone_code[0];
                     code = code.substring(0, 3);
                 }
                 else if (zone_business.length == 5) {
-                    zone_code = zone_business[4].split('(');
-                    zone_code = zone_code[1].split(')');
+                    zone_code = zone_business[4].split("(");
+                    zone_code = zone_code[1].split(")");
                     code = zone_code[0];
                     code = code.substring(0, 3);
                 }
                 else if (zone_business.length == 6) {
-                    zone_code = zone_business[5].split('(');
-                    zone_code = zone_code[1].split(')');
+                    zone_code = zone_business[5].split("(");
+                    zone_code = zone_code[1].split(")");
                     code = zone_code[0];
                     code = code.substring(0, 3);
                 }
                 if (_this.zone == code) {
-                    if (_this.business_rank == "EI" || _this.business_rank == "DIR_ZON" || _this.business_rank == "EMP_COM") {
+                    if (_this.business_rank == "EI" ||
+                        _this.business_rank == "DIR_ZON" ||
+                        _this.business_rank == "EMP_COM") {
                         _this.show_business = true;
                         _this.show_referrer = true;
                         _this.referrer_document_type = _this.business_document_type;
-                        _this.referrer_document = result['UserInfo']['Docid'];
-                        _this.referrer_name = result['UserInfo']['Name'];
-                        _this.referrer_rank = result['UserInfo']['Rank'];
-                        _this.user_form.get('business_name').setValue(_this.business_name);
-                        _this.user_form.get('business_rank').setValue(_this.business_rank);
-                        _this.user_form.get('referrer_document_type').setValue(_this.referrer_document_type);
-                        _this.user_form.get('referrer_document').setValue(_this.referrer_document);
-                        _this.user_form.get('referrer_name').setValue(_this.referrer_name);
-                        _this.user_form.get('referrer_rank').setValue(_this.referrer_rank);
-                        _this.user_form.controls['business_name'].markAsTouched();
-                        _this.user_form.controls['business_rank'].markAsTouched();
-                        _this.user_form.controls['referrer_document_type'].markAsTouched();
-                        _this.user_form.controls['referrer_document'].markAsTouched();
-                        _this.user_form.controls['referrer_name'].markAsTouched();
-                        _this.user_form.controls['referrer_rank'].markAsTouched();
+                        _this.referrer_document = result["UserInfo"]["Docid"];
+                        _this.referrer_name = result["UserInfo"]["Name"];
+                        _this.referrer_rank = result["UserInfo"]["Rank"];
+                        _this.user_form.get("business_name").setValue(_this.business_name);
+                        _this.user_form.get("business_rank").setValue(_this.business_rank);
+                        _this.user_form
+                            .get("referrer_document_type")
+                            .setValue(_this.referrer_document_type);
+                        _this.user_form
+                            .get("referrer_document")
+                            .setValue(_this.referrer_document);
+                        _this.user_form.get("referrer_name").setValue(_this.referrer_name);
+                        _this.user_form.get("referrer_rank").setValue(_this.referrer_rank);
+                        _this.user_form.controls["business_name"].markAsTouched();
+                        _this.user_form.controls["business_rank"].markAsTouched();
+                        _this.user_form.controls["referrer_document_type"].markAsTouched();
+                        _this.user_form.controls["referrer_document"].markAsTouched();
+                        _this.user_form.controls["referrer_name"].markAsTouched();
+                        _this.user_form.controls["referrer_rank"].markAsTouched();
                         _this.loading.dismiss();
                     }
                     else {
                         _this.show_business = false;
                         _this.show_referrer = false;
-                        _this.user_form.get('business_document_type').reset();
-                        _this.user_form.get('referrer_document_type').reset();
-                        _this.user_form.get('business_document').reset();
-                        _this.user_form.get('referrer_document').reset();
-                        _this.user_form.get('business_name').reset();
-                        _this.user_form.get('referrer_name').reset();
-                        _this.user_form.get('business_rank').reset();
-                        _this.user_form.get('referrer_rank').reset();
-                        _this.user_form.get('business_document').setValue("");
-                        _this.user_form.get('referrer_document').setValue("");
+                        _this.user_form.get("business_document_type").reset();
+                        _this.user_form.get("referrer_document_type").reset();
+                        _this.user_form.get("business_document").reset();
+                        _this.user_form.get("referrer_document").reset();
+                        _this.user_form.get("business_name").reset();
+                        _this.user_form.get("referrer_name").reset();
+                        _this.user_form.get("business_rank").reset();
+                        _this.user_form.get("referrer_rank").reset();
+                        _this.user_form.get("business_document").setValue("");
+                        _this.user_form.get("referrer_document").setValue("");
                         _this.business_document_type = "";
                         _this.business_document = "";
                         _this.business_name = "";
@@ -21248,16 +21346,16 @@ var SearchPage = /** @class */ (function () {
                 else {
                     _this.show_business = false;
                     _this.show_referrer = false;
-                    _this.user_form.get('business_document_type').reset();
-                    _this.user_form.get('referrer_document_type').reset();
-                    _this.user_form.get('business_document').reset();
-                    _this.user_form.get('referrer_document').reset();
-                    _this.user_form.get('business_name').reset();
-                    _this.user_form.get('referrer_name').reset();
-                    _this.user_form.get('business_rank').reset();
-                    _this.user_form.get('referrer_rank').reset();
-                    _this.user_form.get('business_document').setValue("");
-                    _this.user_form.get('referrer_document').setValue("");
+                    _this.user_form.get("business_document_type").reset();
+                    _this.user_form.get("referrer_document_type").reset();
+                    _this.user_form.get("business_document").reset();
+                    _this.user_form.get("referrer_document").reset();
+                    _this.user_form.get("business_name").reset();
+                    _this.user_form.get("referrer_name").reset();
+                    _this.user_form.get("business_rank").reset();
+                    _this.user_form.get("referrer_rank").reset();
+                    _this.user_form.get("business_document").setValue("");
+                    _this.user_form.get("referrer_document").setValue("");
                     _this.business_document_type = "";
                     _this.business_document = "";
                     _this.business_name = "";
@@ -21273,16 +21371,16 @@ var SearchPage = /** @class */ (function () {
             else {
                 _this.show_business = false;
                 _this.show_referrer = false;
-                _this.user_form.get('business_document_type').reset();
-                _this.user_form.get('referrer_document_type').reset();
-                _this.user_form.get('business_document').reset();
-                _this.user_form.get('referrer_document').reset();
-                _this.user_form.get('business_name').reset();
-                _this.user_form.get('business_rank').reset();
-                _this.user_form.get('referrer_name').reset();
-                _this.user_form.get('referrer_rank').reset();
-                _this.user_form.get('referrer_document').setValue("");
-                _this.user_form.get('business_document').setValue("");
+                _this.user_form.get("business_document_type").reset();
+                _this.user_form.get("referrer_document_type").reset();
+                _this.user_form.get("business_document").reset();
+                _this.user_form.get("referrer_document").reset();
+                _this.user_form.get("business_name").reset();
+                _this.user_form.get("business_rank").reset();
+                _this.user_form.get("referrer_name").reset();
+                _this.user_form.get("referrer_rank").reset();
+                _this.user_form.get("referrer_document").setValue("");
+                _this.user_form.get("business_document").setValue("");
                 _this.business_document_type = "";
                 _this.business_document = "";
                 _this.business_name = "";
@@ -21315,76 +21413,86 @@ var SearchPage = /** @class */ (function () {
      */
     SearchPage.prototype.search_referer = function (value) {
         var _this = this;
-        this.referrer_document_type = this.user_form.get('referrer_document_type').value;
+        this.referrer_document_type = this.user_form.get("referrer_document_type").value;
         this.showLoader(this.loadingString);
-        this.nomination.hermeco(value, this.referrer_document_type).subscribe(function (result) {
-            if (result['Success'] == 1) {
-                _this.referrer_document = result['UserInfo']['Docid'];
-                _this.referrer_name = result['UserInfo']['Name'];
-                _this.referrer_rank = result['UserInfo']['Rank'];
-                _this.zone_string = result['UserInfo']['TerritoryName'];
-                var zone_referer = _this.zone_string.split(' ');
+        this.nomination
+            .hermeco(value, this.referrer_document_type)
+            .subscribe(function (result) {
+            if (result["Success"] == 1) {
+                _this.referrer_document = result["UserInfo"]["Docid"];
+                _this.referrer_name = result["UserInfo"]["Name"];
+                _this.referrer_rank = result["UserInfo"]["Rank"];
+                _this.zone_string = result["UserInfo"]["TerritoryName"];
+                var zone_referer = _this.zone_string.split(" ");
                 var zone_code = null;
                 var code = null;
                 if (zone_referer.length == 2) {
-                    zone_code = zone_referer[1].split('(');
-                    zone_code = zone_code[1].split(')');
+                    zone_code = zone_referer[1].split("(");
+                    zone_code = zone_code[1].split(")");
                     code = zone_code[0];
                     code = code.substring(0, 3);
                 }
                 else if (zone_referer.length == 3) {
-                    zone_code = zone_referer[2].split('(');
-                    zone_code = zone_code[1].split(')');
+                    zone_code = zone_referer[2].split("(");
+                    zone_code = zone_code[1].split(")");
                     code = zone_code[0];
                     code = code.substring(0, 3);
                 }
                 else if (zone_referer.length == 4) {
-                    zone_code = zone_referer[3].split('(');
-                    zone_code = zone_code[1].split(')');
+                    zone_code = zone_referer[3].split("(");
+                    zone_code = zone_code[1].split(")");
                     code = zone_code[0];
                     code = code.substring(0, 3);
                 }
                 else if (zone_referer.length == 5) {
-                    zone_code = zone_referer[4].split('(');
-                    zone_code = zone_code[1].split(')');
+                    zone_code = zone_referer[4].split("(");
+                    zone_code = zone_code[1].split(")");
                     code = zone_code[0];
                     code = code.substring(0, 3);
                 }
                 else if (zone_referer.length == 6) {
-                    zone_code = zone_referer[5].split('(');
-                    zone_code = zone_code[1].split(')');
+                    zone_code = zone_referer[5].split("(");
+                    zone_code = zone_code[1].split(")");
                     code = zone_code[0];
                     code = code.substring(0, 3);
                 }
                 if (_this.zone == code) {
-                    if (_this.referrer_rank == "EI" || _this.referrer_rank == "DIR_ZON" || _this.referrer_rank == "EMP_COM") {
+                    if (_this.referrer_rank == "EI" ||
+                        _this.referrer_rank == "DIR_ZON" ||
+                        _this.referrer_rank == "EMP_COM") {
                         _this.show_referrer = true;
                         _this.show_business = true;
-                        _this.user_form.get('business_document_type').setValue(_this.referrer_document_type);
-                        _this.user_form.get('business_document').setValue(_this.referrer_document);
-                        _this.user_form.get('business_name').setValue(_this.referrer_name);
-                        _this.user_form.get('business_rank').setValue(_this.referrer_rank);
-                        _this.user_form.get('referrer_document').setValue(_this.referrer_document);
-                        _this.user_form.get('referrer_name').setValue(_this.referrer_name);
-                        _this.user_form.get('referrer_rank').setValue(_this.referrer_rank);
-                        _this.user_form.controls['business_document_type'].markAsTouched();
-                        _this.user_form.controls['business_document'].markAsTouched();
-                        _this.user_form.controls['business_name'].markAsTouched();
-                        _this.user_form.controls['business_rank'].markAsTouched();
-                        _this.user_form.controls['referrer_document_type'].markAsTouched();
-                        _this.user_form.controls['referrer_document'].markAsTouched();
-                        _this.user_form.controls['referrer_name'].markAsTouched();
-                        _this.user_form.controls['referrer_rank'].markAsTouched();
+                        _this.user_form
+                            .get("business_document_type")
+                            .setValue(_this.referrer_document_type);
+                        _this.user_form
+                            .get("business_document")
+                            .setValue(_this.referrer_document);
+                        _this.user_form.get("business_name").setValue(_this.referrer_name);
+                        _this.user_form.get("business_rank").setValue(_this.referrer_rank);
+                        _this.user_form
+                            .get("referrer_document")
+                            .setValue(_this.referrer_document);
+                        _this.user_form.get("referrer_name").setValue(_this.referrer_name);
+                        _this.user_form.get("referrer_rank").setValue(_this.referrer_rank);
+                        _this.user_form.controls["business_document_type"].markAsTouched();
+                        _this.user_form.controls["business_document"].markAsTouched();
+                        _this.user_form.controls["business_name"].markAsTouched();
+                        _this.user_form.controls["business_rank"].markAsTouched();
+                        _this.user_form.controls["referrer_document_type"].markAsTouched();
+                        _this.user_form.controls["referrer_document"].markAsTouched();
+                        _this.user_form.controls["referrer_name"].markAsTouched();
+                        _this.user_form.controls["referrer_rank"].markAsTouched();
                         _this.loading.dismiss();
                     }
                     else {
                         _this.show_referrer = false;
-                        _this.user_form.get('referrer_document_type').reset();
-                        _this.user_form.get('referrer_document').reset();
-                        _this.user_form.get('referrer_name').reset();
-                        _this.user_form.get('referrer_rank').reset();
-                        _this.user_form.get('referrer_document_type').setValue("");
-                        _this.user_form.get('referrer_document').setValue("");
+                        _this.user_form.get("referrer_document_type").reset();
+                        _this.user_form.get("referrer_document").reset();
+                        _this.user_form.get("referrer_name").reset();
+                        _this.user_form.get("referrer_rank").reset();
+                        _this.user_form.get("referrer_document_type").setValue("");
+                        _this.user_form.get("referrer_document").setValue("");
                         _this.referrer_document_type = "";
                         _this.referrer_document = "";
                         _this.referrer_name = "";
@@ -21395,25 +21503,29 @@ var SearchPage = /** @class */ (function () {
                 }
                 else {
                     _this.show_referrer = true;
-                    _this.user_form.get('referrer_document_type').setValue(_this.referrer_document_type);
-                    _this.user_form.get('referrer_document').setValue(_this.referrer_document);
-                    _this.user_form.get('referrer_name').setValue(_this.referrer_name);
-                    _this.user_form.get('referrer_rank').setValue(_this.referrer_rank);
-                    _this.user_form.controls['referrer_document_type'].markAsTouched();
-                    _this.user_form.controls['referrer_document'].markAsTouched();
-                    _this.user_form.controls['referrer_name'].markAsTouched();
-                    _this.user_form.controls['referrer_rank'].markAsTouched();
+                    _this.user_form
+                        .get("referrer_document_type")
+                        .setValue(_this.referrer_document_type);
+                    _this.user_form
+                        .get("referrer_document")
+                        .setValue(_this.referrer_document);
+                    _this.user_form.get("referrer_name").setValue(_this.referrer_name);
+                    _this.user_form.get("referrer_rank").setValue(_this.referrer_rank);
+                    _this.user_form.controls["referrer_document_type"].markAsTouched();
+                    _this.user_form.controls["referrer_document"].markAsTouched();
+                    _this.user_form.controls["referrer_name"].markAsTouched();
+                    _this.user_form.controls["referrer_rank"].markAsTouched();
                     _this.loading.dismiss();
                 }
             }
             else {
                 _this.show_referrer = false;
-                _this.user_form.get('referrer_document_type').reset();
-                _this.user_form.get('referrer_document').reset();
-                _this.user_form.get('referrer_name').reset();
-                _this.user_form.get('referrer_rank').reset();
-                _this.user_form.get('referrer_document_type').setValue("");
-                _this.user_form.get('referrer_document').setValue("");
+                _this.user_form.get("referrer_document_type").reset();
+                _this.user_form.get("referrer_document").reset();
+                _this.user_form.get("referrer_name").reset();
+                _this.user_form.get("referrer_rank").reset();
+                _this.user_form.get("referrer_document_type").setValue("");
+                _this.user_form.get("referrer_document").setValue("");
                 _this.referrer_rank = "";
                 _this.referrer_name = "";
                 _this.loading.dismiss();
@@ -21440,18 +21552,42 @@ var SearchPage = /** @class */ (function () {
         this.department = this.user_form.value.department;
         this.city = this.user_form.value.city;
         this.living_place = this.user_form.value.living_place;
-        this.catalogs = this.user_form.value.catalogs ? this.user_form.value.catalogs : null;
-        this.referral = this.user_form.value.referral ? this.user_form.value.referral : null;
-        this.department_fam = this.user_form.value.department_fam ? this.user_form.value.department_fam : null;
-        this.city_fam = this.user_form.value.city_fam ? this.user_form.value.city_fam : null;
-        this.phone_fam = this.user_form.value.phone_fam ? this.user_form.value.phone_fam : null;
-        this.business_document_type = this.user_form.value.business_document_type ? this.user_form.value.business_document_type : null;
-        this.business_document = this.user_form.value.business_document ? this.user_form.value.business_document : null;
-        this.referrer_document_type = this.user_form.value.referrer_document_type ? this.user_form.value.referrer_document_type : null;
-        this.referrer_document = this.user_form.value.referrer_document ? this.user_form.value.referrer_document : null;
-        this.lessor_name = this.user_form.value.lessor_name ? this.user_form.value.lessor_name : null;
-        this.lessor_phone = this.user_form.value.lessor_phone ? this.user_form.value.lessor_phone : null;
-        this.lessor_cell_phone = this.user_form.value.lessor_cell_phone ? this.user_form.value.lessor_cell_phone : null;
+        this.catalogs = this.user_form.value.catalogs
+            ? this.user_form.value.catalogs
+            : null;
+        this.referral = this.user_form.value.referral
+            ? this.user_form.value.referral
+            : null;
+        this.department_fam = this.user_form.value.department_fam
+            ? this.user_form.value.department_fam
+            : null;
+        this.city_fam = this.user_form.value.city_fam
+            ? this.user_form.value.city_fam
+            : null;
+        this.phone_fam = this.user_form.value.phone_fam
+            ? this.user_form.value.phone_fam
+            : null;
+        this.business_document_type = this.user_form.value.business_document_type
+            ? this.user_form.value.business_document_type
+            : null;
+        this.business_document = this.user_form.value.business_document
+            ? this.user_form.value.business_document
+            : null;
+        this.referrer_document_type = this.user_form.value.referrer_document_type
+            ? this.user_form.value.referrer_document_type
+            : null;
+        this.referrer_document = this.user_form.value.referrer_document
+            ? this.user_form.value.referrer_document
+            : null;
+        this.lessor_name = this.user_form.value.lessor_name
+            ? this.user_form.value.lessor_name
+            : null;
+        this.lessor_phone = this.user_form.value.lessor_phone
+            ? this.user_form.value.lessor_phone
+            : null;
+        this.lessor_cell_phone = this.user_form.value.lessor_cell_phone
+            ? this.user_form.value.lessor_cell_phone
+            : null;
         var answers = {
             status: this.status,
             tipoSolicitud: this.payment_type,
@@ -21459,8 +21595,12 @@ var SearchPage = /** @class */ (function () {
             tipoDocumento: this.document_type,
             documento: this.document,
             ZoneId: this.zone_id,
-            nombre: this.first_name ? this.first_name : this.user_form.value.first_name,
-            apellido: this.last_name ? this.last_name : this.user_form.value.last_name,
+            nombre: this.first_name
+                ? this.first_name
+                : this.user_form.value.first_name,
+            apellido: this.last_name
+                ? this.last_name
+                : this.user_form.value.last_name,
             sexo: this.genre,
             fechaNacimiento: this.birthdate,
             email: this.email,
@@ -21494,11 +21634,11 @@ var SearchPage = /** @class */ (function () {
         };
         this.showLoader(this.loadingString);
         var body = new __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["e" /* HttpParams */]()
-            .append('UserName', this.username)
-            .append('Document', this.document)
-            .append('TypeDocument', this.document_type)
-            .append('PaymentType', this.payment_type)
-            .append('FormData', JSON.stringify(answers));
+            .append("UserName", this.username)
+            .append("Document", this.document)
+            .append("TypeDocument", this.document_type)
+            .append("PaymentType", this.payment_type)
+            .append("FormData", JSON.stringify(answers));
         this.nomination.send(body).subscribe(function (result) {
             _this.user_form.reset();
             _this.process(result);
@@ -21513,56 +21653,80 @@ var SearchPage = /** @class */ (function () {
      */
     SearchPage.prototype.attachFile = function () {
         var _this = this;
-        this.fileChooser.open().then(function (uri) {
-            _this.file = uri;
-            _this.filePath.resolveNativePath(uri).then(function (file) {
-                _this.fileObject.resolveLocalFilesystemUrl(file).then(function (fileinfo) {
-                    var files = fileinfo;
-                    files.file(function (success) {
-                        if (success.type != 'application/pdf') {
-                            _this.file = null;
-                            _this.showAlert(_this.fileErrorString, _this.fileErrorMsgString);
-                        }
-                    }, function (error) {
+        if (this.platform.is("core")) {
+            // Running in browser
+            document.getElementById("hidden-upload-file-btn").click();
+            this.runningBrowser = true;
+        }
+        else {
+            // Running in mobile
+            this.fileChooser
+                .open()
+                .then(function (uri) {
+                _this.file = uri;
+                _this.filePath
+                    .resolveNativePath(uri)
+                    .then(function (file) {
+                    _this.fileObject
+                        .resolveLocalFilesystemUrl(file)
+                        .then(function (fileinfo) {
+                        var files = fileinfo;
+                        files.file(function (success) {
+                            if (success.type != "application/pdf") {
+                                _this.file = null;
+                                _this.showAlert(_this.fileErrorString, _this.fileErrorMsgString);
+                            }
+                        }, function (error) {
+                            console.log(error);
+                        });
+                    })
+                        .catch(function (error) {
                         console.log(error);
                     });
-                }).catch(function (error) {
-                    console.log(error);
+                })
+                    .catch(function (error) {
+                    console.log(JSON.stringify(error));
                 });
-            }).catch(function (error) {
-                console.log(JSON.stringify(error));
+            })
+                .catch(function (error) {
+                console.log(error);
             });
-        }).catch(function (error) {
-            console.log(error);
-        });
+        }
     };
     /**
      * Method doSendFile
      */
     SearchPage.prototype.doSendFile = function () {
         var _this = this;
-        this.showLoader(this.loadingString);
-        var params = {
-            UserName: this.username,
-            Document: this.document,
-            TypeDocument: this.document_type,
-            PaymentType: this.payment_type
-        };
-        var options = {
-            fileKey: 'file',
-            fileName: this.username + '_' + this.document + '.pdf',
-            params: params,
-        };
-        this.nomination.sendFile(this.file, options).then(function (result) {
-            _this.loading.dismiss();
-            _this.file = "";
-            _this.process(JSON.parse(result.response));
-        }, function (error) {
-            _this.loading.dismiss();
-            _this.showAlert(_this.errorString, _this.errorFile);
-            _this.file = "";
-            console.log(error);
-        });
+        if (typeof this.imageTemp == "undefined") {
+            this.showAlert(this.fileErrorString, this.fileErrorMsgEmptyString);
+        }
+        else {
+            this.showLoader(this.loadingString);
+            var customFile = this.runningBrowser === true ? this.imageTemp : this.file;
+            var params = {
+                UserName: this.username,
+                Document: this.document,
+                TypeDocument: this.document_type,
+                PaymentType: this.payment_type,
+                RunningBrowser: this.runningBrowser,
+            };
+            var options = {
+                fileKey: "file",
+                fileName: this.username + "_" + this.document + ".pdf",
+                params: params,
+            };
+            this.nomination.sendFile(customFile, options).then(function (result) {
+                _this.loading.dismiss();
+                _this.file = "";
+                _this.process(JSON.parse(result.response));
+            }, function (error) {
+                _this.loading.dismiss();
+                _this.showAlert(_this.errorString, _this.errorFile);
+                _this.file = "";
+                console.log(error);
+            });
+        }
     };
     /**
      * Method doExit
@@ -21610,7 +21774,7 @@ var SearchPage = /** @class */ (function () {
             var document_type = group.controls[document_type_key];
             if (payment_type.value == 1 && document_type.value == 2) {
                 return {
-                    mismatched: true
+                    mismatched: true,
                 };
             }
         };
@@ -21623,16 +21787,19 @@ var SearchPage = /** @class */ (function () {
         this.alert = this.alertCtrl.create({
             title: this.logoutTitleString,
             message: this.logoutDescriptionString,
-            buttons: [{
+            buttons: [
+                {
                     text: this.logoutButtonCancelString,
                     handler: function () { },
-                }, {
+                },
+                {
                     text: this.logoutButtonOkString,
                     handler: function () {
                         _this.user.logout();
                         _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_9____["a" /* FirstRunPage */]);
                     },
-                }],
+                },
+            ],
         });
         this.alert.present();
     };
@@ -21655,7 +21822,7 @@ var SearchPage = /** @class */ (function () {
         this.toast = this.toastCtrl.create({
             message: message,
             duration: 6000,
-            position: 'top',
+            position: "top",
         });
         this.toast.present();
     };
@@ -21668,16 +21835,36 @@ var SearchPage = /** @class */ (function () {
         this.alert = this.alertCtrl.create({
             title: title,
             message: message,
-            buttons: [{
+            buttons: [
+                {
                     text: this.alertOkButtonString,
                     handler: function () { },
-                }],
+                },
+            ],
         });
         this.alert.present();
     };
+    /**
+     * @param {FileList} files
+     */
+    SearchPage.prototype.handleFileInput = function (files) {
+        if (files.length <= 0) {
+            this.imageTemp = null;
+            return false;
+        }
+        var file = files.item(0);
+        if (file.type.indexOf("pdf") === -1) {
+            this.showAlert(this.fileErrorString, this.fileErrorMsgString);
+            this.file = null;
+            return false;
+        }
+        this.imageTemp = file;
+        this.file = file.name;
+        return true;
+    };
     SearchPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["m" /* Component */])({
-            selector: 'page-search',template:/*ion-inline-start:"C:\xampp\htdocs\hermeco-movil\src\pages\search\search.html"*/'<ion-header>\n\n  <ion-navbar color="dark">\n\n    <ion-buttons left>\n\n      <button ion-button icon-only (click)="doLogout()">\n\n        <ion-icon ios="ios-close-circle" md="md-close-circle"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n\n\n    <ion-title>{{ username }}</ion-title>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n<ion-content>\n\n  <ion-grid padding>\n\n    <ion-row>\n\n      <ion-col>\n\n        <div *ngIf="process_step == 0">\n\n          <h4 class="step">{{ \'STEP.SEARCH.TITLE\' | translate }}</h4>\n\n        </div>\n\n\n\n        <div *ngIf="process_step == 1.5">\n\n          <h4 class="step">{{ \'STEP.SEARCH.TITLE\' | translate }}</h4>\n\n        </div>\n\n        \n\n        <div *ngIf="process_step == 2">\n\n          <h4 class="step">{{ \'STEP.VALIDATION.TITLE\' | translate }}</h4>\n\n        </div>\n\n\n\n        <div *ngIf="process_step == 2.5">\n\n          <h4 class="step">{{ \'STEP.RISK.TITLE\' | translate }}</h4>\n\n        </div>\n\n\n\n        <div *ngIf="process_step == 2.6">\n\n          <h4 class="step">{{ \'STEP.RISK.TITLE\' | translate }}</h4>\n\n        </div>\n\n\n\n        <div *ngIf="process_step == 2.7">\n\n          <h4 class="step">{{ \'STEP.RISK.TITLE\' | translate }}</h4>\n\n        </div>\n\n\n\n        <div *ngIf="process_step == 3">\n\n          <h4 class="step">{{ \'STEP.RISK.TITLE\' | translate }}</h4>\n\n        </div>\n\n\n\n        <div *ngIf="process_step == 4">\n\n          <h4 class="step">{{ \'STEP.SCORE.TITLE\' | translate }}</h4>\n\n        </div>\n\n\n\n        <div *ngIf="process_step == 4.2">\n\n          <h4 class="step">{{ \'STEP.SCORE.TITLE\' | translate }}</h4>\n\n        </div>\n\n\n\n        <div *ngIf="process_step == 7">\n\n          <h4 class="step">{{ \'STEP.QUESTION.TITLE\' | translate }}</h4>\n\n        </div>\n\n\n\n        <div *ngIf="process_step == 8">\n\n          <h4 class="step">{{ \'STEP.FILE.TITLE\' | translate }}</h4>\n\n        </div>\n\n\n\n        <div *ngIf="process_step == 10">\n\n          <h4 class="step">{{ \'STEP.END.TITLE\' | translate }}</h4>\n\n        </div>\n\n      </ion-col>\n\n    </ion-row>\n\n  </ion-grid>\n\n\n\n  <ion-card>\n\n    <ion-card-header>\n\n      <ion-grid>\n\n        <ion-row>\n\n          <ion-col>\n\n            <ion-icon *ngIf="process_step == 0" name="list-box" color="warning" tooltip="{{ \'STEP.SEARCH.TOOLTIP\'| translate }}" positionH="right" arrow></ion-icon>\n\n\n\n            <div *ngIf="process_step == 1">\n\n              <ion-spinner class="icono-grande" name="bubbles"></ion-spinner>\n\n            </div>\n\n\n\n            <ion-icon *ngIf="process_step == 1.5" name="list-box" color="danger" tooltip="{{ \'STEP.SEARCH.TOOLTIP\'| translate }}" positionH="right" arrow></ion-icon>\n\n\n\n            <ion-icon *ngIf="process_step >= 2" name="list-box" color="quaternary" tooltip="{{ \'STEP.SEARCH.TOOLTIP\'| translate }}" positionH="right" arrow></ion-icon>\n\n          </ion-col>\n\n\n\n          <ion-col>\n\n            <ion-icon *ngIf="process_step < 2" name="person" tooltip="{{ \'STEP.VALIDATION.TOOLTIP\' | translate }}" positionH="right" arrow></ion-icon>\n\n\n\n            <ion-icon *ngIf="process_step == 2" name="person" color="warning" tooltip="{{ \'STEP.VALIDATION.TOOLTIP\' | translate }}" positionH="right" arrow></ion-icon>\n\n\n\n            <ion-icon *ngIf="process_step > 2" name="person" color="quaternary" tooltip="{{ \'STEP.VALIDATION.TOOLTIP\' | translate }}" positionH="right" arrow></ion-icon>\n\n          </ion-col>\n\n\n\n          <ion-col>\n\n            <ion-icon *ngIf="process_step < 2.5" name="help" tooltip="{{ \'STEP.RISK.TOOLTIP\' | translate }}" positionH="right" arrow></ion-icon>\n\n\n\n            <ion-icon *ngIf="process_step == 2.5 || process_step == 2.6 || process_step == 2.7 || process_step == 2.8" name="help" color="danger" tooltip="{{ \'STEP.RISK.TOOLTIP\' | translate }}" positionH="right" arrow></ion-icon>\n\n\n\n            <ion-icon *ngIf="process_step == 3" name="help" color="warning" tooltip="{{ \'STEP.RISK.TOOLTIP\' | translate }}" positionH="right" arrow></ion-icon>\n\n\n\n            <ion-icon *ngIf="process_step > 3" name="help" color="quaternary" tooltip="{{ \'STEP.RISK.TOOLTIP\' | translate }}" positionH="right" arrow></ion-icon>\n\n          </ion-col>\n\n\n\n          <ion-col>\n\n            <ion-icon *ngIf="process_step < 4" name="logo-usd" tooltip="{{ \'STEP.SCORE.TOOLTIP\' | translate }}" positionV="bottom" arrow></ion-icon>\n\n\n\n            <ion-icon *ngIf="process_step == 4" name="logo-usd" color="warning" tooltip="{{ \'STEP.SCORE.TOOLTIP\' | translate }}" positionV="bottom" arrow></ion-icon>\n\n\n\n            <ion-icon *ngIf="process_step == 4.2" name="logo-usd" color="danger" tooltip="{{ \'STEP.SCORE.TOOLTIP\' | translate }}" positionV="bottom" arrow></ion-icon>\n\n\n\n            <ion-icon *ngIf="process_step > 4.2" name="logo-usd" color="quaternary" tooltip="{{ \'STEP.SCORE.TOOLTIP\' | translate }}" positionV="bottom" arrow></ion-icon>\n\n          </ion-col>\n\n\n\n          <ion-col>\n\n            <ion-icon *ngIf="process_step < 7" name="clipboard" tooltip="{{ \'STEP.QUESTION.TOOLTIP\' | translate }}" positionH="left" arrow></ion-icon>\n\n\n\n            <ion-icon *ngIf="process_step == 7" name="clipboard" color="warning" tooltip="{{ \'STEP.QUESTION.TOOLTIP\' | translate }}" positionH="left" arrow></ion-icon>\n\n\n\n            <ion-icon *ngIf="process_step > 7" name="clipboard" color="quaternary" tooltip="{{ \'STEP.QUESTION.TOOLTIP\' | translate }}" positionH="left" arrow></ion-icon>\n\n          </ion-col>\n\n\n\n          <ion-col>\n\n            <ion-icon *ngIf="process_step < 8" name="paper" tooltip="{{ \'STEP.FILE.TOOLTIP\' | translate }}" positionH="left" arrow></ion-icon>\n\n\n\n            <ion-icon *ngIf="process_step == 8" name="paper" color="warning" tooltip="{{ \'STEP.FILE.TOOLTIP\' | translate }}" positionH="left" arrow></ion-icon>\n\n\n\n            <ion-icon *ngIf="process_step > 8" name="paper" color="quaternary" tooltip="{{ \'STEP.FILE.TOOLTIP\' | translate }}" positionH="left" arrow></ion-icon>\n\n          </ion-col>\n\n        </ion-row>\n\n      </ion-grid>\n\n    </ion-card-header>\n\n\n\n    <ion-card-content>\n\n      <ion-card *ngIf="process_step == 1.5" class="animated flipInX">\n\n        <ion-card-content class="card-background-danger">\n\n          <ion-grid>\n\n            <ion-row>\n\n              <ion-col>\n\n                <ion-icon ios="ios-close-circle" md="md-close-circle"></ion-icon>\n\n\n\n                <p>{{ \'STEP.SEARCH.ERROR.VALIDATION\' | translate }}</p>\n\n              </ion-col>\n\n            </ion-row>\n\n          </ion-grid>\n\n        </ion-card-content>\n\n\n\n        <ion-row>\n\n          <ion-col>\n\n            <button (click)="doExit()" ion-button color="danger" block>{{ \'STEP.EXIT\' | translate }}</button>\n\n          </ion-col>\n\n        </ion-row>\n\n      </ion-card>\n\n\n\n      <ion-card *ngIf="process_step == 2.5" class="animated flipInX">\n\n        <ion-card-content class="card-background-danger">\n\n          <ion-grid>\n\n            <ion-row>\n\n              <ion-col>\n\n                <ion-icon ios="ios-close-circle" md="md-close-circle"></ion-icon>\n\n\n\n                <p>{{ \'STEP.RISK.ERROR.QUESTION\' | translate }}<br>{{ \'STEP.RISK.ERROR.FIRST_TRY\' | translate }}</p>\n\n              </ion-col>\n\n            </ion-row>\n\n          </ion-grid>\n\n        </ion-card-content>\n\n\n\n        <ion-row>\n\n          <ion-col>\n\n            <button (click)="doExit()" ion-button color="danger" block>{{ \'STEP.EXIT\' | translate }}</button>\n\n          </ion-col>\n\n\n\n          <ion-col>\n\n            <button (click)="doNext()" ion-button color="quaternary" block>{{ \'STEP.RISK.AGAIN\' | translate }}</button>\n\n          </ion-col>\n\n        </ion-row>\n\n      </ion-card>\n\n\n\n      <ion-card *ngIf="process_step == 2.6" class="animated flipInX">\n\n        <ion-card-content class="card-background-danger">\n\n          <ion-grid>\n\n            <ion-row>\n\n              <ion-col>\n\n                <ion-icon ios="ios-close-circle" md="md-close-circle"></ion-icon>\n\n\n\n                <p>{{ \'STEP.RISK.ERROR.QUESTION\' | translate }}<br>{{ \'STEP.RISK.ERROR.SECOND_TRY\' | translate }}<br>{{ \'STEP.RISK.ERROR.BLOCK\' | translate }}</p>\n\n              </ion-col>\n\n            </ion-row>\n\n          </ion-grid>\n\n        </ion-card-content>\n\n\n\n        <ion-row>\n\n          <ion-col>\n\n            <button (click)="doExit()" ion-button color="danger" block>{{ \'STEP.EXIT\' | translate }}</button>\n\n          </ion-col>\n\n        </ion-row>\n\n      </ion-card>\n\n\n\n      <ion-card *ngIf="process_step == 2.7" class="animated flipInX">\n\n        <ion-card-content class="card-background-danger">\n\n          <ion-grid>\n\n            <ion-row>\n\n              <ion-col>\n\n                <ion-icon ios="ios-close-circle" md="md-close-circle"></ion-icon>\n\n\n\n                <p>{{ error_message }}</p>\n\n              </ion-col>\n\n            </ion-row>\n\n          </ion-grid>\n\n        </ion-card-content>\n\n\n\n        <ion-row>\n\n          <ion-col>\n\n            <button (click)="doExit()" ion-button color="danger" block>{{ \'STEP.EXIT\' | translate }}</button>\n\n          </ion-col>\n\n        </ion-row>\n\n      </ion-card>\n\n\n\n      <ion-card *ngIf="process_step == 2.8" class="animated flipInX">\n\n        <ion-card-content class="card-background-danger">\n\n          <ion-grid>\n\n            <ion-row>\n\n              <ion-col>\n\n                <ion-icon ios="ios-close-circle" md="md-close-circle"></ion-icon>\n\n\n\n                <p>{{ \'STEP.RISK.ERROR.QUESTION\' | translate }}<br>{{ \'STEP.RISK.ERROR.BLOCKED_DAY\' | translate }}<br>{{ \'STEP.RISK.ERROR.BLOCK\' | translate }}</p>\n\n              </ion-col>\n\n            </ion-row>\n\n          </ion-grid>\n\n        </ion-card-content>\n\n\n\n        <ion-row>\n\n          <ion-col>\n\n            <button (click)="doExit()" ion-button color="danger" block>{{ \'STEP.EXIT\' | translate }}</button>\n\n          </ion-col>\n\n        </ion-row>\n\n      </ion-card>\n\n\n\n      <form [formGroup]="search_form" (ngSubmit)="doSearch()" *ngIf="process_step == 0">\n\n        <ion-title>{{ \'STEP.SEARCH.TOOLTIP\' | translate }}</ion-title>\n\n\n\n        <ion-list no-lines>\n\n          <ion-item>\n\n            <ion-label floating>{{ \'STEP.SEARCH.FORM.TYPE_REQUEST.LABEL\' | translate }}</ion-label>\n\n\n\n            <ion-select formControlName="payment_type">\n\n              <ion-option value="1">{{ \'STEP.SEARCH.FORM.TYPE_REQUEST.CREDIT\' | translate }}</ion-option>\n\n\n\n              <ion-option value="2">{{ \'STEP.SEARCH.FORM.TYPE_REQUEST.PREPAID\' | translate }}</ion-option>\n\n\n\n              <ion-option value="3">{{ \'STEP.SEARCH.FORM.TYPE_REQUEST.DELIVERY\' | translate }}</ion-option>\n\n            </ion-select>\n\n          </ion-item>\n\n\n\n          <ion-item>\n\n            <ion-label floating>{{ \'STEP.SEARCH.FORM.TYPE_DOC.LABEL\' | translate }}</ion-label>\n\n\n\n            <ion-select formControlName="document_type">\n\n              <ion-option value="1">{{ \'STEP.SEARCH.FORM.TYPE_DOC.DOCUMENT\' | translate }}</ion-option>\n\n\n\n              <ion-option value="2">{{ \'STEP.SEARCH.FORM.TYPE_DOC.FOREIGN\' | translate }}</ion-option>\n\n            </ion-select>\n\n          </ion-item>\n\n\n\n          <ion-item *ngIf="search_form.controls.payment_type.touched && search_form.hasError(\'mismatched\')">\n\n            <p *ngIf="search_form.hasError(\'mismatched\')">{{ \'STEP.SEARCH.FORM.ERROR.FOREIGN\' | translate }}</p>\n\n          </ion-item>\n\n\n\n          <ion-item>\n\n            <ion-label floating>{{ \'STEP.SEARCH.FORM.DOCUMENT\' | translate }}</ion-label>\n\n\n\n            <ion-input formControlName="document" type="number"></ion-input>\n\n          </ion-item>\n\n\n\n          <ion-item *ngIf="!search_form.controls.document.valid && (search_form.controls.document.dirty)">\n\n            <p *ngIf="search_form.get(\'document\').hasError(\'required\')">{{ \'STEP.SEARCH.FORM.ERROR.DOCUMENT.REQUIRED\' | translate }}</p>\n\n\n\n            <p *ngIf="search_form.get(\'document\').hasError(\'pattern\')">{{ \'STEP.SEARCH.FORM.ERROR.DOCUMENT.PATTERN\' | translate }}</p>\n\n\n\n            <p *ngIf="search_form.get(\'document\').hasError(\'minlength\')">{{ \'STEP.SEARCH.FORM.ERROR.DOCUMENT.MIN\' | translate }}</p>\n\n\n\n            <p *ngIf="search_form.get(\'document\').hasError(\'maxlength\')">{{ \'STEP.SEARCH.FORM.ERROR.DOCUMENT.MAX\' | translate }}</p>\n\n          </ion-item>\n\n\n\n          <div class="button-search">\n\n            <button [disabled]="!search_form.valid" ion-button color="quaternary" icon-left block full>\n\n              <ion-icon ios="ios-search" md="md-search"></ion-icon>\n\n\n\n              {{ \'STEP.SEARCH.FORM.BUTTON\' | translate }}\n\n            </button>\n\n          </div>\n\n        </ion-list>\n\n      </form>\n\n      \n\n      <div *ngIf="process_step == 2" class="animated flipInX validation-form">\n\n        <form [formGroup]="validation_form">\n\n          <ion-title>{{ \'STEP.VALIDATION.TOOLTIP\' | translate }}</ion-title>\n\n\n\n          <ion-list no-lines>\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.VALIDATION.FORM.LAST_NAME\' | translate }}</ion-label>\n\n\n\n              <ion-input formControlName="first_last_name" type="text"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="!validation_form.controls.first_last_name.valid && (validation_form.controls.first_last_name.dirty)">\n\n              <p *ngIf="validation_form.get(\'first_last_name\').hasError(\'required\')">{{ \'STEP.VALIDATION.FORM.ERROR.LAST_NAME.REQUIRED\' | translate }}</p>\n\n\n\n              <p *ngIf="validation_form.get(\'first_last_name\').hasError(\'minlength\')">{{ \'STEP.VALIDATION.FORM.ERROR.LAST_NAME.MIN\' | translate }}</p>\n\n\n\n              <p *ngIf="validation_form.get(\'first_last_name\').hasError(\'maxlength\')">{{ \'STEP.VALIDATION.FORM.ERROR.LAST_NAME.MAX\' | translate }}</p>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.VALIDATION.FORM.EXPEDITION.LABEL\' | translate }}</ion-label>\n\n\n\n              <ion-datetime \n\n                displayFormat="DD/MM/YYYY" \n\n                pickerFormat="DD/MMM/YYYY"\n\n                monthShortNames="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic"\n\n                formControlName="expedition_date"\n\n                doneText="{{ \'STEP.VALIDATION.FORM.EXPEDITION.DONE\' | translate }}" \n\n                cancelText="{{ \'STEP.VALIDATION.FORM.EXPEDITION.CANCEL\' | translate }}">\n\n              </ion-datetime>\n\n            </ion-item>\n\n          </ion-list>\n\n\n\n          <ion-grid>\n\n            <ion-row>\n\n              <ion-col class="col-exit">\n\n                <button (click)="doExit()" ion-button full color="danger">{{ \'STEP.EXIT\' | translate }}</button>\n\n              </ion-col>\n\n\n\n              <ion-col class="col-send">\n\n                <button (click)="validateUser()" [disabled]="!validation_form.valid" ion-button full color="quaternary">{{ \'STEP.VALIDATION.FORM.BUTTON\' | translate }}</button>\n\n              </ion-col>\n\n            </ion-row>\n\n          </ion-grid>\n\n        </form>\n\n      </div>\n\n\n\n      <form #questionForm="ngForm" *ngIf="process_step == 3">\n\n        <ion-title>{{ \'STEP.RISK.TOOLTIP\' | translate }}</ion-title>\n\n\n\n        <div *ngFor="let item of questions">\n\n          <div class="animated flipInX">\n\n            <ion-card-content>\n\n              <ion-row>\n\n                <h3><b>{{ item.TextoPregunta }}</b></h3>\n\n              </ion-row>\n\n\n\n              <ion-list radio-group [name]=\'item.TextoPregunta\' [(ngModel)]="item.SecuenciaPregunta" required>\n\n                <ion-item class="question-border" *ngFor="let question of item.ListadoRespuestas">\n\n                  <ion-label>\n\n                    <small>{{ question.TextoRespuesta }}</small>\n\n                  </ion-label>\n\n\n\n                  <ion-radio value="{{ question.SecuenciaPregunta + \';\' + question.SecuenciaRespuesta }}"></ion-radio>\n\n                </ion-item>\n\n              </ion-list>\n\n            </ion-card-content>\n\n          </div>\n\n        </div>\n\n\n\n        <ion-grid>\n\n          <ion-row>\n\n            <ion-col class="col-exit">\n\n              <button (click)="doExit()" ion-button full color="danger">{{ \'STEP.EXIT\' | translate }}</button>\n\n            </ion-col>\n\n\n\n            <ion-col class="col-send">\n\n              <button (click)="doValidator(questionForm.value)" [disabled]="!questionForm.valid" ion-button color="quaternary" icon-left block full>{{ \'STEP.RISK.FORM.BUTTON\' | translate }}</button>\n\n            </ion-col>\n\n          </ion-row>\n\n        </ion-grid>\n\n      </form>\n\n\n\n      <ion-card *ngIf="process_step == 4" class="animated flipInX">\n\n        <ion-card-content class="card-background-success">\n\n          <ion-grid>\n\n            <ion-row>\n\n              <ion-col>\n\n                <ion-icon ios="ios-checkmark" md="md-checkmark"></ion-icon>\n\n                <h2 *ngIf="score == 0 && payment_type == 2">{{ \'STEP.SCORE.PREPAID\' | translate }}</h2>\n\n                <h2 *ngIf="score == 0 && payment_type == 3">{{ \'STEP.SCORE.DELIVERY\' | translate }}</h2>\n\n\n\n                <div *ngIf="score != 0">\n\n                  <h1><b>{{ \'STEP.SCORE.CONGRATULATIONS\' | translate }}</b></h1><br><p>{{ \'STEP.SCORE.ASSIGEND\' | translate }}</p><h2><b>${{ score }}</b></h2>\n\n                </div>\n\n                \n\n                <br><br>\n\n              </ion-col>\n\n            </ion-row>\n\n          </ion-grid>\n\n        </ion-card-content>\n\n\n\n        <ion-row>\n\n          <ion-col>\n\n            <button (click)="doExit()" ion-button color="danger" block>{{ \'STEP.EXIT\' | translate }}</button>\n\n          </ion-col>\n\n\n\n          <ion-col>\n\n            <button (click)="doNext()" ion-button color="quaternary" block>{{ \'STEP.SCORE.FORM.BUTTON\' | translate }}</button>\n\n          </ion-col>\n\n        </ion-row>\n\n      </ion-card>\n\n\n\n      <ion-card *ngIf="process_step == 4.2" class="animated flipInX">\n\n        <ion-card-content class="card-background-danger">\n\n          <ion-grid>\n\n            <ion-row>\n\n              <ion-col>\n\n                <ion-icon ios="ios-close-circle" md="md-close-circle"></ion-icon>\n\n\n\n                <p>{{ \'STEP.SCORE.ERROR.INVALID\' | translate }}\n\n                  <br>{{ \'STEP.SCORE.ERROR.MSG\' | translate }}</p>\n\n              </ion-col>\n\n            </ion-row>\n\n          </ion-grid>\n\n        </ion-card-content>\n\n\n\n        <ion-row>\n\n          <ion-col>\n\n            <button (click)="doExit()" ion-button color="danger" block>{{ \'STEP.EXIT\' | translate }}</button>\n\n          </ion-col>\n\n        </ion-row>\n\n      </ion-card>\n\n\n\n      <div *ngIf="process_step == 7" class="animated flipInX user-form">\n\n        <form [formGroup]="user_form">\n\n          <ion-title>{{ \'STEP.QUESTION.TOOLTIP\' | translate }}</ion-title>\n\n\n\n          <ion-list no-lines>\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.STATUS\' | translate }}</ion-label>\n\n\n\n              <ion-input formControlName="status" type="text"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.TYPE_REQUEST\' | translate }}</ion-label>\n\n\n\n              <ion-input formControlName="payment_type" type="text"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.CAMPAIGN\' | translate }}</ion-label>\n\n\n\n              <ion-input formControlName="campaign" type="text"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.TODAY\' | translate }}</ion-label>\n\n\n\n              <ion-input formControlName="today" type="text"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.TYPE_DOC\' | translate }}</ion-label>\n\n\n\n              <ion-input formControlName="document_type" type="text"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.DOCUMENT\' | translate }}</ion-label>\n\n\n\n              <ion-input formControlName="document" type="text"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.ZONE\' | translate }}</ion-label>\n\n\n\n              <ion-input formControlName="zone" type="text"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.FIRST_NAME\' | translate }}</ion-label>\n\n\n\n              <ion-input formControlName="first_name" type="text"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="!user_form.controls.first_name.valid && (user_form.controls.first_name.dirty)">\n\n              <p *ngIf="user_form.get(\'first_name\').hasError(\'required\')">{{ \'STEP.QUESTION.FORM.ERROR.FIRST_NAME.REQUIRED\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'first_name\').hasError(\'minlength\')">{{ \'STEP.QUESTION.FORM.ERROR.FIRST_NAME.MIN\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'first_name\').hasError(\'maxlength\')">{{ \'STEP.QUESTION.FORM.ERROR.FIRST_NAME.MAX\' | translate }}</p>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.LAST_NAME\' | translate }}</ion-label>\n\n\n\n              <ion-input formControlName="last_name" type="text"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="!user_form.controls.last_name.valid && (user_form.controls.last_name.dirty)">\n\n              <p *ngIf="user_form.get(\'last_name\').hasError(\'required\')">{{ \'STEP.QUESTION.FORM.ERROR.LAST_NAME.REQUIRED\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'last_name\').hasError(\'minlength\')">{{ \'STEP.QUESTION.FORM.ERROR.LAST_NAME.MIN\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'last_name\').hasError(\'maxlength\')">{{ \'STEP.QUESTION.FORM.ERROR.LAST_NAME.MAX\' | translate }}</p>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.GENRE.LABEL\' | translate }}</ion-label>\n\n\n\n              <ion-select formControlName="genre">\n\n                <ion-option value="1">{{ \'STEP.QUESTION.FORM.GENRE.MALE\' | translate }}</ion-option>\n\n\n\n                <ion-option value="2">{{ \'STEP.QUESTION.FORM.GENRE.FEMALE\' | translate }}</ion-option>\n\n              </ion-select>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.BIRTHDATE.LABEL\' | translate }}</ion-label>\n\n\n\n              <ion-datetime \n\n                displayFormat="DD/MM/YYYY" \n\n                pickerFormat="DD/MMM/YYYY" \n\n                monthShortNames="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic"\n\n                formControlName="birthdate" \n\n                [min]="minDate"\n\n                [max]="maxDate"\n\n                doneText="{{ \'STEP.QUESTION.FORM.BIRTHDATE.DONE\' | translate }}" \n\n                cancelText="{{ \'STEP.QUESTION.FORM.BIRTHDATE.CANCEL\' | translate }}">\n\n              </ion-datetime>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.EMAIL\' | translate }}</ion-label>\n\n\n\n              <ion-input type="email" formControlName="email"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="!user_form.controls.email.valid && (user_form.controls.email.dirty)">\n\n              <p *ngIf="user_form.get(\'email\').hasError(\'required\')">{{ \'STEP.QUESTION.FORM.ERROR.EMAIL.REQUIRED\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'email\').hasError(\'pattern\')">{{ \'STEP.QUESTION.FORM.ERROR.EMAIL.INVALID\' | translate }}</p>\n\n            </ion-item>\n\n\n\n            <div class="direction-inpu-list">\n\n              <ion-label>{{ \'STEP.QUESTION.FORM.DIRECTION\' | translate }}</ion-label>\n\n\n\n              <ion-grid>\n\n                <ion-row>\n\n                  <ion-col col-4 class="first-col">\n\n                    <ion-select formControlName="direction_one" [selectOptions]="selectOptions" col-12 (ionChange)="directionChange($event)">\n\n                      <ion-option value="NA">No Aplica</ion-option>\n\n                      <ion-option value="ADL">Adelante</ion-option>\n\n                      <ion-option value="ADM">Administración</ion-option>\n\n                      <ion-option value="AER">Aeropuerto</ion-option>\n\n                      <ion-option value="AG">Agencia</ion-option>\n\n                      <ion-option value="AGP">Agrupación</ion-option>\n\n                      <ion-option value="ALD">Al lado</ion-option>\n\n                      <ion-option value="ALM">Almacén</ion-option>\n\n                      <ion-option value="AL">Altillo</ion-option>\n\n                      <ion-option value="AVIAL">Anillo vial</ion-option>\n\n                      <ion-option value="APTDO">Apartado</ion-option>\n\n                      <ion-option value="AP">Apartamento</ion-option>\n\n                      <ion-option value="ATR">Atrás</ion-option>\n\n                      <ion-option value="AUT">Autopista</ion-option>\n\n                      <ion-option value="AV">Avenida</ion-option>\n\n                      <ion-option value="AC">Avenida calle</ion-option>\n\n                      <ion-option value="AK">Avenida carrera</ion-option>\n\n                      <ion-option value="BRR">Barrio</ion-option>\n\n                      <ion-option value="BL">Bloque</ion-option>\n\n                      <ion-option value="BG">Bodega</ion-option>\n\n                      <ion-option value="BLV">Boulevard</ion-option>\n\n                      <ion-option value="CL">Calle</ion-option>\n\n                      <ion-option value="CLJ">Callejón</ion-option>\n\n                      <ion-option value="CN">Camino</ion-option>\n\n                      <ion-option value="CR">Carrera</ion-option>\n\n                      <ion-option value="CRT">Carretera</ion-option>\n\n                      <ion-option value="CA">Casa</ion-option>\n\n                      <ion-option value="CAS">Caserío</ion-option>\n\n                      <ion-option value="CEL">Célula</ion-option>\n\n                      <ion-option value="CEN">Centro</ion-option>\n\n                      <ion-option value="CC">Centro comercial</ion-option>\n\n                      <ion-option value="CIR">Circular</ion-option>\n\n                      <ion-option value="CRV">Circunvalar</ion-option>\n\n                      <ion-option value="CD">Ciudadela</ion-option>\n\n                      <ion-option value="CONJ">Conjunto</ion-option>\n\n                      <ion-option value="CON">Conjunto residencial</ion-option>\n\n                      <ion-option value="CS">Consultorio</ion-option>\n\n                      <ion-option value="C">Corregimiento</ion-option>\n\n                      <ion-option value="DPTO">Departamento</ion-option>\n\n                      <ion-option value="DP">Depósito</ion-option>\n\n                      <ion-option value="DS">Depósito sótano</ion-option>\n\n                      <ion-option value="DG">Diagonal</ion-option>\n\n                      <ion-option value="ED">Edificio</ion-option>\n\n                      <ion-option value="EN">Entrada</ion-option>\n\n                      <ion-option value="ES">Escalera</ion-option>\n\n                      <ion-option value="ESQ">Esquina</ion-option>\n\n                      <ion-option value="ESTE">Este</ion-option>\n\n                      <ion-option value="ET">Etapa</ion-option>\n\n                      <ion-option value="EX">Exterior</ion-option>\n\n                      <ion-option value="FCA">Finca</ion-option>\n\n                      <ion-option value="GJ">Garaje</ion-option>\n\n                      <ion-option value="GS">Garaje sótano</ion-option>\n\n                      <ion-option value="GT">Glorieta</ion-option>\n\n                      <ion-option value="HC">Hacienda</ion-option>\n\n                      <ion-option value="HG">Hangar</ion-option>\n\n                      <ion-option value="IP">Inspección de Policía</ion-option>\n\n                      <ion-option value="IPD">Inspección departamental</ion-option>\n\n                      <ion-option value="IPM">Inspección Municipal</ion-option>\n\n                      <ion-option value="IN">Interior</ion-option>\n\n                      <ion-option value="KM">Kilómetro</ion-option>\n\n                      <ion-option value="LC">Local</ion-option>\n\n                      <ion-option value="LM">Local Mezznine</ion-option>\n\n                      <ion-option value="LT">Lote</ion-option>\n\n                      <ion-option value="MZ">Manzana</ion-option>\n\n                      <ion-option value="MN">Mezznine</ion-option>\n\n                      <ion-option value="MD">Módulo</ion-option>\n\n                      <ion-option value="MJ">Mojón</ion-option>\n\n                      <ion-option value="MLL">Muelle</ion-option>\n\n                      <ion-option value="NORTE">Norte</ion-option>\n\n                      <ion-option value="OCC">Occidente</ion-option>\n\n                      <ion-option value="OESTE">Oeste</ion-option>\n\n                      <ion-option value="OF">Oficina</ion-option>\n\n                      <ion-option value="O">Oriente</ion-option>\n\n                      <ion-option value="PRJ">Paraje</ion-option>\n\n                      <ion-option value="PA">Parcela</ion-option>\n\n                      <ion-option value="PW">Park Way</ion-option>\n\n                      <ion-option value="PAR">Parque</ion-option>\n\n                      <ion-option value="PQ">Parqueadero</ion-option>\n\n                      <ion-option value="PJ">Pasaje</ion-option>\n\n                      <ion-option value="PS">Paseo</ion-option>\n\n                      <ion-option value="PH">Penthouse</ion-option>\n\n                      <ion-option value="P">Piso</ion-option>\n\n                      <ion-option value="PL">Planta</ion-option>\n\n                      <ion-option value="POR">Portería</ion-option>\n\n                      <ion-option value="POS">Poste</ion-option>\n\n                      <ion-option value="PD">Predio</ion-option>\n\n                      <ion-option value="PN">Puente</ion-option>\n\n                      <ion-option value="PT">Puesto</ion-option>\n\n                      <ion-option value="RP">Round Point</ion-option>\n\n                      <ion-option value="SD">Salida</ion-option>\n\n                      <ion-option value="SA">Salón</ion-option>\n\n                      <ion-option value="SC">Salón comunal</ion-option>\n\n                      <ion-option value="SEC">Sector</ion-option>\n\n                      <ion-option value="SS">Semisótano</ion-option>\n\n                      <ion-option value="SL">Solar</ion-option>\n\n                      <ion-option value="ST">Sótano</ion-option>\n\n                      <ion-option value="SUITE">Suite</ion-option>\n\n                      <ion-option value="SM">Súper manzana</ion-option>\n\n                      <ion-option value="SUR">Sur</ion-option>\n\n                      <ion-option value="TER">Terminal</ion-option>\n\n                      <ion-option value="TERPLN">Terraplén</ion-option>\n\n                      <ion-option value="TZ">Terraza</ion-option>\n\n                      <ion-option value="TO">Torre</ion-option>\n\n                      <ion-option value="TV">Transversal</ion-option>\n\n                      <ion-option value="UN">Unidad</ion-option>\n\n                      <ion-option value="UR">Unidad residencial</ion-option>\n\n                      <ion-option value="URB">Urbanización</ion-option>\n\n                      <ion-option value="VTE">Variante</ion-option>\n\n                      <ion-option value="VRD">Vereda</ion-option>\n\n                      <ion-option value="ZN">Zona</ion-option>\n\n                      <ion-option value="ZF">Zona franca</ion-option>\n\n                    </ion-select>\n\n                  </ion-col>\n\n\n\n                  <ion-col col-2>\n\n                    <ion-input type="text" formControlName="direction_two" [disabled]="disable_input"></ion-input>\n\n                  </ion-col>\n\n\n\n                  <ion-col col-1 class="centered-field">\n\n                    #\n\n                  </ion-col>\n\n\n\n                  <ion-col col-2>\n\n                    <ion-input type="text" formControlName="direction_three" [disabled]="disable_input"></ion-input>\n\n                  </ion-col>\n\n\n\n                  <ion-col col-1 class="centered-field">\n\n                    -\n\n                  </ion-col>\n\n\n\n                  <ion-col col-2>\n\n                    <ion-input type="text" formControlName="direction_four" [disabled]="disable_input"></ion-input>\n\n                  </ion-col>\n\n                </ion-row>\n\n              </ion-grid>\n\n            </div>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.DIRECTION_OPTIONAL\' | translate }}</ion-label>\n\n\n\n              <ion-input type="text" formControlName="direction_five"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="!user_form.controls.direction_five.valid && (user_form.controls.direction_five.dirty)">\n\n              <p *ngIf="user_form.get(\'direction_five\').hasError(\'required\')">{{ \'STEP.QUESTION.FORM.ERROR.DIRECTION_OPTIONAL.REQUIRED\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'direction_five\').hasError(\'pattern\')">{{ \'STEP.QUESTION.FORM.ERROR.DIRECTION_OPTIONAL.INVALID\' | translate }}</p>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.NEIGHBORHOOD\' | translate }}</ion-label>\n\n\n\n              <ion-input type="text" formControlName="neighborhood"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.PHONE\' | translate }}</ion-label>\n\n\n\n              <ion-input type="number" formControlName="phone"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="!user_form.controls.phone.valid && (user_form.controls.phone.dirty)">\n\n              <p *ngIf="user_form.get(\'phone\').hasError(\'required\')">{{ \'STEP.QUESTION.FORM.ERROR.PHONE.REQUIRED\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'phone\').hasError(\'minlength\')">{{ \'STEP.QUESTION.FORM.ERROR.PHONE.MIN\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'phone\').hasError(\'maxlength\')">{{ \'STEP.QUESTION.FORM.ERROR.PHONE.MAX\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'phone\').hasError(\'pattern\')">{{ \'STEP.QUESTION.FORM.ERROR.PHONE.INVALID\' | translate }}</p>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.CELLPHONE\' | translate }}</ion-label>\n\n\n\n              <ion-input type="number" formControlName="cell_phone"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="!user_form.controls.cell_phone.valid && (user_form.controls.cell_phone.dirty)">\n\n              <p *ngIf="user_form.get(\'cell_phone\').hasError(\'required\')">{{ \'STEP.QUESTION.FORM.ERROR.CELLPHONE.REQUIRED\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'cell_phone\').hasError(\'minlength\')">{{ \'STEP.QUESTION.FORM.ERROR.CELLPHONE.MIN\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'cell_phone\').hasError(\'maxlength\')">{{ \'STEP.QUESTION.FORM.ERROR.CELLPHONE.MAX\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'cell_phone\').hasError(\'pattern\')">{{ \'STEP.QUESTION.FORM.ERROR.CELLPHONE.INVALID\' | translate }}</p>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.DEPARTMENT\' | translate }}</ion-label>\n\n\n\n              <ion-select formControlName="department" (ionChange)="departmentChange($event)">\n\n                <ion-option *ngFor="let item of departments" [value]="item.Id">{{ item.Name }}</ion-option>\n\n              </ion-select>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.CITY\' | translate }}</ion-label>\n\n\n\n              <ion-select formControlName="city">\n\n                <ion-option *ngFor="let item of cities" [value]="item.Id">{{ item.Name }}</ion-option>\n\n              </ion-select>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.LIVING_PLACE.LABEL\' | translate }}</ion-label>\n\n\n\n              <ion-select formControlName="living_place" (ionChange)="livingPlaceChange($event)">\n\n                <ion-option value="1">{{ \'STEP.QUESTION.FORM.LIVING_PLACE.OWN\' | translate }}</ion-option>\n\n\n\n                <ion-option value="2">{{ \'STEP.QUESTION.FORM.LIVING_PLACE.LEASED\' | translate }}</ion-option>\n\n              </ion-select>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="show_living_place">\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.LESSOR.NAME\' | translate }}</ion-label>\n\n\n\n              <ion-input type="text" formControlName="lessor_name"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="show_living_place">\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.LESSOR.PHONE\' | translate }}</ion-label>\n\n\n\n              <ion-input type="number" formControlName="lessor_phone"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="!user_form.controls.lessor_phone.valid && (user_form.controls.lessor_phone.dirty)">\n\n              <p *ngIf="user_form.get(\'lessor_phone\').hasError(\'required\')">{{ \'STEP.QUESTION.FORM.ERROR.LESSOR.PHONE.REQUIRED\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'lessor_phone\').hasError(\'minlength\')">{{ \'STEP.QUESTION.FORM.ERROR.LESSOR.PHONE.MIN\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'lessor_phone\').hasError(\'maxlength\')">{{ \'STEP.QUESTION.FORM.ERROR.LESSOR.PHONE.MAX\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'lessor_phone\').hasError(\'pattern\')">{{ \'STEP.QUESTION.FORM.ERROR.LESSOR.PHONE.INVALID\' | translate }}</p>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="show_living_place">\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.LESSOR.CELL\' | translate }}</ion-label>\n\n\n\n              <ion-input type="number" formControlName="lessor_cell_phone"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="!user_form.controls.lessor_cell_phone.valid && (user_form.controls.lessor_cell_phone.dirty)">\n\n              <p *ngIf="user_form.get(\'lessor_cell_phone\').hasError(\'required\')">{{ \'STEP.QUESTION.FORM.ERROR.LESSOR.CELL.REQUIRED\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'lessor_cell_phone\').hasError(\'minlength\')">{{ \'STEP.QUESTION.FORM.ERROR.LESSOR.CELL.MIN\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'lessor_cell_phone\').hasError(\'maxlength\')">{{ \'STEP.QUESTION.FORM.ERROR.LESSOR.CELL.MAX\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'lessor_cell_phone\').hasError(\'pattern\')">{{ \'STEP.QUESTION.FORM.ERROR.LESSOR.CELL.INVALID\' | translate }}</p>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.SELLER\' | translate }}</ion-label>\n\n\n\n              <ion-input type="text" formControlName="catalogs"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.REFERRAL.NAME\' | translate }}</ion-label>\n\n\n\n              <ion-input type="text" formControlName="referral"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.REFERRAL.DEPARTMENT\' | translate }}</ion-label>\n\n\n\n              <ion-select formControlName="department_fam" (ionChange)="departmentFamChange($event)">\n\n                <ion-option *ngFor="let item of departments" [value]="item.Id">{{ item.Name }}</ion-option>\n\n              </ion-select>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.REFERRAL.CITY\' | translate }}</ion-label>\n\n\n\n              <ion-select formControlName="city_fam">\n\n                <ion-option *ngFor="let item of cities_fam" [value]="item.Id">{{ item.Name }}</ion-option>\n\n              </ion-select>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.REFERRAL.PHONE\' | translate }}</ion-label>\n\n\n\n              <ion-input type="number" formControlName="phone_fam"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="!user_form.controls.phone_fam.valid && (user_form.controls.phone_fam.dirty)">\n\n              <p *ngIf="user_form.get(\'phone_fam\').hasError(\'required\')">{{ \'STEP.QUESTION.FORM.ERROR.REFERRAL.PHONE.REQUIRED\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'phone_fam\').hasError(\'minlength\')">{{ \'STEP.QUESTION.FORM.ERROR.REFERRAL.PHONE.MIN\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'phone_fam\').hasError(\'maxlength\')">{{ \'STEP.QUESTION.FORM.ERROR.REFERRAL.PHONE.MAX\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'phone_fam\').hasError(\'pattern\')">{{ \'STEP.QUESTION.FORM.ERROR.REFERRAL.PHONE.INVALID\' | translate }}</p>\n\n            </ion-item>            \n\n          </ion-list>\n\n\n\n          <ion-grid class="grid-title">\n\n            <ion-title>{{ \'STEP.QUESTION.FORM.SPONSOR.TITLE\' | translate }}</ion-title>\n\n          </ion-grid>\n\n\n\n          <ion-list no-lines>\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.SPONSOR.TYPE_DOC.LABEL\' | translate }}</ion-label>\n\n      \n\n              <ion-select formControlName="business_document_type">\n\n                <ion-option value="1">{{ \'STEP.QUESTION.FORM.SPONSOR.TYPE_DOC.DOCUMENT\' | translate }}</ion-option>\n\n      \n\n                <ion-option value="2">{{ \'STEP.QUESTION.FORM.SPONSOR.TYPE_DOC.FOREIGN\' | translate }}</ion-option>\n\n              </ion-select>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.SPONSOR.DOCUMENT\' | translate }}</ion-label>\n\n\n\n              <ion-input type="number" formControlName="business_document" (keyup)="businessChange($event)"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="!user_form.controls.business_document.valid && (user_form.controls.business_document.dirty)">\n\n              <p *ngIf="user_form.get(\'business_document\').hasError(\'required\')">{{ \'STEP.QUESTION.FORM.ERROR.SPONSOR.DOCUMENT.REQUIRED\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'business_document\').hasError(\'minlength\')">{{ \'STEP.QUESTION.FORM.ERROR.SPONSOR.DOCUMENT.MIN\' | translate }}</p>\n\n  \n\n              <p *ngIf="user_form.get(\'business_document\').hasError(\'maxlength\')">{{ \'STEP.QUESTION.FORM.ERROR.SPONSOR.DOCUMENT.MAX\' | translate }}</p>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="show_business">\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.SPONSOR.NAME\' | translate }}</ion-label>\n\n\n\n              <ion-input type="text" formControlName="business_name"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="show_business">\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.SPONSOR.RANK\' | translate }}</ion-label>\n\n\n\n              <ion-input type="text" formControlName="business_rank"></ion-input>\n\n            </ion-item>\n\n          </ion-list>\n\n\n\n          <ion-grid class="grid-title">\n\n            <ion-title>{{ \'STEP.QUESTION.FORM.REFERS.TITLE\' | translate }}</ion-title>\n\n          </ion-grid>          \n\n\n\n          <ion-list no-lines>\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.REFERS.TYPE_DOC.LABEL\' | translate }}</ion-label>\n\n          \n\n              <ion-select formControlName="referrer_document_type">\n\n                <ion-option value="1">{{ \'STEP.QUESTION.FORM.REFERS.TYPE_DOC.DOCUMENT\' | translate }}</ion-option>\n\n          \n\n                <ion-option value="2">{{ \'STEP.QUESTION.FORM.REFERS.TYPE_DOC.FOREIGN\' | translate }}</ion-option>\n\n              </ion-select>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.REFERS.DOCUMENT\' | translate }}</ion-label>\n\n\n\n              <ion-input type="number" formControlName="referrer_document" (keyup)="referrerChange($event)"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="!user_form.controls.referrer_document.valid && (user_form.controls.referrer_document.dirty)">\n\n              <p *ngIf="user_form.get(\'referrer_document\').hasError(\'required\')">{{ \'STEP.QUESTION.FORM.ERROR.REFERS.DOCUMENT.REQUIRED\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'referrer_document\').hasError(\'minlength\')">{{ \'STEP.QUESTION.FORM.ERROR.REFERS.DOCUMENT.MIN\' | translate }}</p>\n\n  \n\n              <p *ngIf="user_form.get(\'referrer_document\').hasError(\'maxlength\')">{{ \'STEP.QUESTION.FORM.ERROR.REFERS.DOCUMENT.MAX\' | translate }}</p>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="show_referrer">\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.REFERS.NAME\' | translate }}</ion-label>\n\n\n\n              <ion-input type="text" formControlName="referrer_name"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="show_referrer">\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.REFERS.RANK\' | translate }}</ion-label>\n\n\n\n              <ion-input type="text" formControlName="referrer_rank"></ion-input>\n\n            </ion-item>\n\n          </ion-list>\n\n\n\n          <ion-grid>\n\n            <ion-row>\n\n              <ion-col class="col-exit">\n\n                <button (click)="doExit()" ion-button full color="danger">{{ \'STEP.EXIT\' | translate }}</button>\n\n              </ion-col>\n\n\n\n              <ion-col class="col-send">\n\n                <button (click)="openModal()" [disabled]="!user_form.valid" ion-button full color="quaternary">{{ \'STEP.QUESTION.FORM.BUTTON\' | translate }}</button>\n\n              </ion-col>\n\n            </ion-row>\n\n          </ion-grid>\n\n        </form>\n\n      </div>\n\n\n\n      <div *ngIf="process_step == 8" class="animated flipInX">\n\n        <ion-title>{{ \'STEP.FILE.TOOLTIP\' | translate }}</ion-title>\n\n\n\n        <ion-card>\n\n          <ion-card-content>\n\n            <ion-grid>\n\n              <ion-row>\n\n                <ion-col col-6 class="first-col-file">\n\n                  <h2 ion-text>{{ \'STEP.FILE.FORM.CHOOSE_FILE\' | translate }}</h2>\n\n                </ion-col>\n\n\n\n                <ion-col col-6>\n\n                  <button (click)="attachFile()" ion-button color="primary" block>{{ \'STEP.FILE.FORM.FILE\' | translate }}</button>\n\n                </ion-col>\n\n              </ion-row>\n\n\n\n              {{ file }}\n\n            </ion-grid>\n\n          </ion-card-content>\n\n\n\n          <ion-grid>\n\n            <ion-row>\n\n              <ion-col class="col-exit">\n\n                <button (click)="doExit()" ion-button full color="danger">{{ \'STEP.EXIT\' | translate }}</button>\n\n              </ion-col>\n\n\n\n              <ion-col class="col-send">\n\n                <button (click)="doSendFile()" ion-button color="quaternary" icon-left block full>{{ \'STEP.FILE.FORM.BUTTON\' | translate }}</button>\n\n              </ion-col>\n\n            </ion-row>\n\n          </ion-grid>\n\n        </ion-card>\n\n      </div>\n\n\n\n      <ion-card *ngIf="process_step == 10" class="animated flipInX">\n\n        <ion-card-content class="card-background-success">\n\n          <ion-grid>\n\n            <ion-row>\n\n              <ion-col>\n\n                <ion-icon name="logo-usd">\n\n                  <p>{{ \'STEP.END.FINISH\' | translate }}<br><i>{{ \'STEP.END.SCORE\' | translate }}</i></p>\n\n                  \n\n                  <h1>\n\n                    <strong>${{ score }}</strong>\n\n                  </h1>\n\n                </ion-icon>\n\n              </ion-col>\n\n            </ion-row>\n\n          </ion-grid>\n\n        </ion-card-content>\n\n\n\n        <ion-row>\n\n          <ion-col>\n\n            <button (click)="doExit()" ion-button color="quaternary" full>{{ \'STEP.EXIT\' | translate }}</button>\n\n          </ion-col>\n\n        </ion-row>\n\n      </ion-card>\n\n    </ion-card-content>\n\n  </ion-card>\n\n</ion-content>'/*ion-inline-end:"C:\xampp\htdocs\hermeco-movil\src\pages\search\search.html"*/,
+            selector: "page-search",template:/*ion-inline-start:"C:\xampp\htdocs\hermeco-movil\src\pages\search\search.html"*/'<ion-header>\n\n  <ion-navbar color="dark">\n\n    <ion-buttons left>\n\n      <button ion-button icon-only (click)="doLogout()">\n\n        <ion-icon ios="ios-close-circle" md="md-close-circle"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n\n\n    <ion-title>{{ username }}</ion-title>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n<ion-content>\n\n  <ion-grid padding>\n\n    <ion-row>\n\n      <ion-col>\n\n        <div *ngIf="process_step == 0">\n\n          <h4 class="step">{{ \'STEP.SEARCH.TITLE\' | translate }}</h4>\n\n        </div>\n\n\n\n        <div *ngIf="process_step == 1.5">\n\n          <h4 class="step">{{ \'STEP.SEARCH.TITLE\' | translate }}</h4>\n\n        </div>\n\n\n\n        <div *ngIf="process_step == 2">\n\n          <h4 class="step">{{ \'STEP.VALIDATION.TITLE\' | translate }}</h4>\n\n        </div>\n\n\n\n        <div *ngIf="process_step == 2.5">\n\n          <h4 class="step">{{ \'STEP.RISK.TITLE\' | translate }}</h4>\n\n        </div>\n\n\n\n        <div *ngIf="process_step == 2.6">\n\n          <h4 class="step">{{ \'STEP.RISK.TITLE\' | translate }}</h4>\n\n        </div>\n\n\n\n        <div *ngIf="process_step == 2.7">\n\n          <h4 class="step">{{ \'STEP.RISK.TITLE\' | translate }}</h4>\n\n        </div>\n\n\n\n        <div *ngIf="process_step == 3">\n\n          <h4 class="step">{{ \'STEP.RISK.TITLE\' | translate }}</h4>\n\n        </div>\n\n\n\n        <div *ngIf="process_step == 4">\n\n          <h4 class="step">{{ \'STEP.SCORE.TITLE\' | translate }}</h4>\n\n        </div>\n\n\n\n        <div *ngIf="process_step == 4.2">\n\n          <h4 class="step">{{ \'STEP.SCORE.TITLE\' | translate }}</h4>\n\n        </div>\n\n\n\n        <div *ngIf="process_step == 7">\n\n          <h4 class="step">{{ \'STEP.QUESTION.TITLE\' | translate }}</h4>\n\n        </div>\n\n\n\n        <div *ngIf="process_step == 8">\n\n          <h4 class="step">{{ \'STEP.FILE.TITLE\' | translate }}</h4>\n\n        </div>\n\n\n\n        <div *ngIf="process_step == 10">\n\n          <h4 class="step">{{ \'STEP.END.TITLE\' | translate }}</h4>\n\n        </div>\n\n      </ion-col>\n\n    </ion-row>\n\n  </ion-grid>\n\n\n\n  <ion-card>\n\n    <ion-card-header>\n\n      <ion-grid>\n\n        <ion-row>\n\n          <ion-col>\n\n            <ion-icon *ngIf="process_step == 0" name="list-box" color="warning"\n\n              tooltip="{{ \'STEP.SEARCH.TOOLTIP\'| translate }}" positionH="right" arrow></ion-icon>\n\n\n\n            <div *ngIf="process_step == 1">\n\n              <ion-spinner class="icono-grande" name="bubbles"></ion-spinner>\n\n            </div>\n\n\n\n            <ion-icon *ngIf="process_step == 1.5" name="list-box" color="danger"\n\n              tooltip="{{ \'STEP.SEARCH.TOOLTIP\'| translate }}" positionH="right" arrow></ion-icon>\n\n\n\n            <ion-icon *ngIf="process_step >= 2" name="list-box" color="quaternary"\n\n              tooltip="{{ \'STEP.SEARCH.TOOLTIP\'| translate }}" positionH="right" arrow></ion-icon>\n\n          </ion-col>\n\n\n\n          <ion-col>\n\n            <ion-icon *ngIf="process_step < 2" name="person" tooltip="{{ \'STEP.VALIDATION.TOOLTIP\' | translate }}"\n\n              positionH="right" arrow></ion-icon>\n\n\n\n            <ion-icon *ngIf="process_step == 2" name="person" color="warning"\n\n              tooltip="{{ \'STEP.VALIDATION.TOOLTIP\' | translate }}" positionH="right" arrow></ion-icon>\n\n\n\n            <ion-icon *ngIf="process_step > 2" name="person" color="quaternary"\n\n              tooltip="{{ \'STEP.VALIDATION.TOOLTIP\' | translate }}" positionH="right" arrow></ion-icon>\n\n          </ion-col>\n\n\n\n          <ion-col>\n\n            <ion-icon *ngIf="process_step < 2.5" name="help" tooltip="{{ \'STEP.RISK.TOOLTIP\' | translate }}"\n\n              positionH="right" arrow></ion-icon>\n\n\n\n            <ion-icon *ngIf="process_step == 2.5 || process_step == 2.6 || process_step == 2.7 || process_step == 2.8"\n\n              name="help" color="danger" tooltip="{{ \'STEP.RISK.TOOLTIP\' | translate }}" positionH="right" arrow>\n\n            </ion-icon>\n\n\n\n            <ion-icon *ngIf="process_step == 3" name="help" color="warning"\n\n              tooltip="{{ \'STEP.RISK.TOOLTIP\' | translate }}" positionH="right" arrow></ion-icon>\n\n\n\n            <ion-icon *ngIf="process_step > 3" name="help" color="quaternary"\n\n              tooltip="{{ \'STEP.RISK.TOOLTIP\' | translate }}" positionH="right" arrow></ion-icon>\n\n          </ion-col>\n\n\n\n          <ion-col>\n\n            <ion-icon *ngIf="process_step < 4" name="logo-usd" tooltip="{{ \'STEP.SCORE.TOOLTIP\' | translate }}"\n\n              positionV="bottom" arrow></ion-icon>\n\n\n\n            <ion-icon *ngIf="process_step == 4" name="logo-usd" color="warning"\n\n              tooltip="{{ \'STEP.SCORE.TOOLTIP\' | translate }}" positionV="bottom" arrow></ion-icon>\n\n\n\n            <ion-icon *ngIf="process_step == 4.2" name="logo-usd" color="danger"\n\n              tooltip="{{ \'STEP.SCORE.TOOLTIP\' | translate }}" positionV="bottom" arrow></ion-icon>\n\n\n\n            <ion-icon *ngIf="process_step > 4.2" name="logo-usd" color="quaternary"\n\n              tooltip="{{ \'STEP.SCORE.TOOLTIP\' | translate }}" positionV="bottom" arrow></ion-icon>\n\n          </ion-col>\n\n\n\n          <ion-col>\n\n            <ion-icon *ngIf="process_step < 7" name="clipboard" tooltip="{{ \'STEP.QUESTION.TOOLTIP\' | translate }}"\n\n              positionH="left" arrow></ion-icon>\n\n\n\n            <ion-icon *ngIf="process_step == 7" name="clipboard" color="warning"\n\n              tooltip="{{ \'STEP.QUESTION.TOOLTIP\' | translate }}" positionH="left" arrow></ion-icon>\n\n\n\n            <ion-icon *ngIf="process_step > 7" name="clipboard" color="quaternary"\n\n              tooltip="{{ \'STEP.QUESTION.TOOLTIP\' | translate }}" positionH="left" arrow></ion-icon>\n\n          </ion-col>\n\n\n\n          <ion-col>\n\n            <ion-icon *ngIf="process_step < 8" name="paper" tooltip="{{ \'STEP.FILE.TOOLTIP\' | translate }}"\n\n              positionH="left" arrow></ion-icon>\n\n\n\n            <ion-icon *ngIf="process_step == 8" name="paper" color="warning"\n\n              tooltip="{{ \'STEP.FILE.TOOLTIP\' | translate }}" positionH="left" arrow></ion-icon>\n\n\n\n            <ion-icon *ngIf="process_step > 8" name="paper" color="quaternary"\n\n              tooltip="{{ \'STEP.FILE.TOOLTIP\' | translate }}" positionH="left" arrow></ion-icon>\n\n          </ion-col>\n\n        </ion-row>\n\n      </ion-grid>\n\n    </ion-card-header>\n\n\n\n    <ion-card-content>\n\n      <ion-card *ngIf="process_step == 1.5" class="animated flipInX">\n\n        <ion-card-content class="card-background-danger">\n\n          <ion-grid>\n\n            <ion-row>\n\n              <ion-col>\n\n                <ion-icon ios="ios-close-circle" md="md-close-circle"></ion-icon>\n\n\n\n                <p>{{ \'STEP.SEARCH.ERROR.VALIDATION\' | translate }}</p>\n\n              </ion-col>\n\n            </ion-row>\n\n          </ion-grid>\n\n        </ion-card-content>\n\n\n\n        <ion-row>\n\n          <ion-col>\n\n            <button (click)="doExit()" ion-button color="danger" block>{{ \'STEP.EXIT\' | translate }}</button>\n\n          </ion-col>\n\n        </ion-row>\n\n      </ion-card>\n\n\n\n      <ion-card *ngIf="process_step == 2.5" class="animated flipInX">\n\n        <ion-card-content class="card-background-danger">\n\n          <ion-grid>\n\n            <ion-row>\n\n              <ion-col>\n\n                <ion-icon ios="ios-close-circle" md="md-close-circle"></ion-icon>\n\n\n\n                <p>{{ \'STEP.RISK.ERROR.QUESTION\' | translate }}<br>{{ \'STEP.RISK.ERROR.FIRST_TRY\' | translate }}</p>\n\n              </ion-col>\n\n            </ion-row>\n\n          </ion-grid>\n\n        </ion-card-content>\n\n\n\n        <ion-row>\n\n          <ion-col>\n\n            <button (click)="doExit()" ion-button color="danger" block>{{ \'STEP.EXIT\' | translate }}</button>\n\n          </ion-col>\n\n\n\n          <ion-col>\n\n            <button (click)="doNext()" ion-button color="quaternary" block>{{ \'STEP.RISK.AGAIN\' | translate }}</button>\n\n          </ion-col>\n\n        </ion-row>\n\n      </ion-card>\n\n\n\n      <ion-card *ngIf="process_step == 2.6" class="animated flipInX">\n\n        <ion-card-content class="card-background-danger">\n\n          <ion-grid>\n\n            <ion-row>\n\n              <ion-col>\n\n                <ion-icon ios="ios-close-circle" md="md-close-circle"></ion-icon>\n\n\n\n                <p>\n\n                  {{ \'STEP.RISK.ERROR.QUESTION\' | translate }}<br>{{ \'STEP.RISK.ERROR.SECOND_TRY\' | translate }}<br>{{ \'STEP.RISK.ERROR.BLOCK\' | translate }}\n\n                </p>\n\n              </ion-col>\n\n            </ion-row>\n\n          </ion-grid>\n\n        </ion-card-content>\n\n\n\n        <ion-row>\n\n          <ion-col>\n\n            <button (click)="doExit()" ion-button color="danger" block>{{ \'STEP.EXIT\' | translate }}</button>\n\n          </ion-col>\n\n        </ion-row>\n\n      </ion-card>\n\n\n\n      <ion-card *ngIf="process_step == 2.7" class="animated flipInX">\n\n        <ion-card-content class="card-background-danger">\n\n          <ion-grid>\n\n            <ion-row>\n\n              <ion-col>\n\n                <ion-icon ios="ios-close-circle" md="md-close-circle"></ion-icon>\n\n\n\n                <p>{{ error_message }}</p>\n\n              </ion-col>\n\n            </ion-row>\n\n          </ion-grid>\n\n        </ion-card-content>\n\n\n\n        <ion-row>\n\n          <ion-col>\n\n            <button (click)="doExit()" ion-button color="danger" block>{{ \'STEP.EXIT\' | translate }}</button>\n\n          </ion-col>\n\n        </ion-row>\n\n      </ion-card>\n\n\n\n      <ion-card *ngIf="process_step == 2.8" class="animated flipInX">\n\n        <ion-card-content class="card-background-danger">\n\n          <ion-grid>\n\n            <ion-row>\n\n              <ion-col>\n\n                <ion-icon ios="ios-close-circle" md="md-close-circle"></ion-icon>\n\n\n\n                <p>\n\n                  {{ \'STEP.RISK.ERROR.QUESTION\' | translate }}<br>{{ \'STEP.RISK.ERROR.BLOCKED_DAY\' | translate }}<br>{{ \'STEP.RISK.ERROR.BLOCK\' | translate }}\n\n                </p>\n\n              </ion-col>\n\n            </ion-row>\n\n          </ion-grid>\n\n        </ion-card-content>\n\n\n\n        <ion-row>\n\n          <ion-col>\n\n            <button (click)="doExit()" ion-button color="danger" block>{{ \'STEP.EXIT\' | translate }}</button>\n\n          </ion-col>\n\n        </ion-row>\n\n      </ion-card>\n\n\n\n      <form [formGroup]="search_form" (ngSubmit)="doSearch()" *ngIf="process_step == 0">\n\n        <ion-title>{{ \'STEP.SEARCH.TOOLTIP\' | translate }}</ion-title>\n\n\n\n        <ion-list no-lines>\n\n          <ion-item>\n\n            <ion-label floating>{{ \'STEP.SEARCH.FORM.TYPE_REQUEST.LABEL\' | translate }}</ion-label>\n\n\n\n            <ion-select formControlName="payment_type">\n\n              <ion-option value="1">{{ \'STEP.SEARCH.FORM.TYPE_REQUEST.CREDIT\' | translate }}</ion-option>\n\n\n\n              <ion-option value="2">{{ \'STEP.SEARCH.FORM.TYPE_REQUEST.PREPAID\' | translate }}</ion-option>\n\n\n\n              <ion-option value="3">{{ \'STEP.SEARCH.FORM.TYPE_REQUEST.DELIVERY\' | translate }}</ion-option>\n\n            </ion-select>\n\n          </ion-item>\n\n\n\n          <ion-item>\n\n            <ion-label floating>{{ \'STEP.SEARCH.FORM.TYPE_DOC.LABEL\' | translate }}</ion-label>\n\n\n\n            <ion-select formControlName="document_type">\n\n              <ion-option value="1">{{ \'STEP.SEARCH.FORM.TYPE_DOC.DOCUMENT\' | translate }}</ion-option>\n\n\n\n              <ion-option value="2">{{ \'STEP.SEARCH.FORM.TYPE_DOC.FOREIGN\' | translate }}</ion-option>\n\n            </ion-select>\n\n          </ion-item>\n\n\n\n          <ion-item *ngIf="search_form.controls.payment_type.touched && search_form.hasError(\'mismatched\')">\n\n            <p *ngIf="search_form.hasError(\'mismatched\')">{{ \'STEP.SEARCH.FORM.ERROR.FOREIGN\' | translate }}</p>\n\n          </ion-item>\n\n\n\n          <ion-item>\n\n            <ion-label floating>{{ \'STEP.SEARCH.FORM.DOCUMENT\' | translate }}</ion-label>\n\n\n\n            <ion-input formControlName="document" type="number"></ion-input>\n\n          </ion-item>\n\n\n\n          <ion-item *ngIf="!search_form.controls.document.valid && (search_form.controls.document.dirty)">\n\n            <p *ngIf="search_form.get(\'document\').hasError(\'required\')">\n\n              {{ \'STEP.SEARCH.FORM.ERROR.DOCUMENT.REQUIRED\' | translate }}</p>\n\n\n\n            <p *ngIf="search_form.get(\'document\').hasError(\'pattern\')">\n\n              {{ \'STEP.SEARCH.FORM.ERROR.DOCUMENT.PATTERN\' | translate }}</p>\n\n\n\n            <p *ngIf="search_form.get(\'document\').hasError(\'minlength\')">\n\n              {{ \'STEP.SEARCH.FORM.ERROR.DOCUMENT.MIN\' | translate }}</p>\n\n\n\n            <p *ngIf="search_form.get(\'document\').hasError(\'maxlength\')">\n\n              {{ \'STEP.SEARCH.FORM.ERROR.DOCUMENT.MAX\' | translate }}</p>\n\n          </ion-item>\n\n\n\n          <div class="button-search">\n\n            <button [disabled]="!search_form.valid" ion-button color="quaternary" icon-left block full>\n\n              <ion-icon ios="ios-search" md="md-search"></ion-icon>\n\n\n\n              {{ \'STEP.SEARCH.FORM.BUTTON\' | translate }}\n\n            </button>\n\n          </div>\n\n        </ion-list>\n\n      </form>\n\n\n\n      <div *ngIf="process_step == 2" class="animated flipInX validation-form">\n\n        <form [formGroup]="validation_form">\n\n          <ion-title>{{ \'STEP.VALIDATION.TOOLTIP\' | translate }}</ion-title>\n\n\n\n          <ion-list no-lines>\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.VALIDATION.FORM.LAST_NAME\' | translate }}</ion-label>\n\n\n\n              <ion-input formControlName="first_last_name" type="text"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item\n\n              *ngIf="!validation_form.controls.first_last_name.valid && (validation_form.controls.first_last_name.dirty)">\n\n              <p *ngIf="validation_form.get(\'first_last_name\').hasError(\'required\')">\n\n                {{ \'STEP.VALIDATION.FORM.ERROR.LAST_NAME.REQUIRED\' | translate }}</p>\n\n\n\n              <p *ngIf="validation_form.get(\'first_last_name\').hasError(\'minlength\')">\n\n                {{ \'STEP.VALIDATION.FORM.ERROR.LAST_NAME.MIN\' | translate }}</p>\n\n\n\n              <p *ngIf="validation_form.get(\'first_last_name\').hasError(\'maxlength\')">\n\n                {{ \'STEP.VALIDATION.FORM.ERROR.LAST_NAME.MAX\' | translate }}</p>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.VALIDATION.FORM.EXPEDITION.LABEL\' | translate }}</ion-label>\n\n\n\n              <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD/MMM/YYYY"\n\n                monthShortNames="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic"\n\n                formControlName="expedition_date" doneText="{{ \'STEP.VALIDATION.FORM.EXPEDITION.DONE\' | translate }}"\n\n                cancelText="{{ \'STEP.VALIDATION.FORM.EXPEDITION.CANCEL\' | translate }}">\n\n              </ion-datetime>\n\n            </ion-item>\n\n          </ion-list>\n\n\n\n          <ion-grid>\n\n            <ion-row>\n\n              <ion-col class="col-exit">\n\n                <button (click)="doExit()" ion-button full color="danger">{{ \'STEP.EXIT\' | translate }}</button>\n\n              </ion-col>\n\n\n\n              <ion-col class="col-send">\n\n                <button (click)="validateUser()" [disabled]="!validation_form.valid" ion-button full\n\n                  color="quaternary">{{ \'STEP.VALIDATION.FORM.BUTTON\' | translate }}</button>\n\n              </ion-col>\n\n            </ion-row>\n\n          </ion-grid>\n\n        </form>\n\n      </div>\n\n\n\n      <form #questionForm="ngForm" *ngIf="process_step == 3">\n\n        <ion-title>{{ \'STEP.RISK.TOOLTIP\' | translate }}</ion-title>\n\n\n\n        <div *ngFor="let item of questions">\n\n          <div class="animated flipInX">\n\n            <ion-card-content>\n\n              <ion-row>\n\n                <h3><b>{{ item.TextoPregunta }}</b></h3>\n\n              </ion-row>\n\n\n\n              <ion-list radio-group [name]=\'item.TextoPregunta\' [(ngModel)]="item.SecuenciaPregunta" required>\n\n                <ion-item class="question-border" *ngFor="let question of item.ListadoRespuestas">\n\n                  <ion-label>\n\n                    <small>{{ question.TextoRespuesta }}</small>\n\n                  </ion-label>\n\n\n\n                  <ion-radio value="{{ question.SecuenciaPregunta + \';\' + question.SecuenciaRespuesta }}"></ion-radio>\n\n                </ion-item>\n\n              </ion-list>\n\n            </ion-card-content>\n\n          </div>\n\n        </div>\n\n\n\n        <ion-grid>\n\n          <ion-row>\n\n            <ion-col class="col-exit">\n\n              <button (click)="doExit()" ion-button full color="danger">{{ \'STEP.EXIT\' | translate }}</button>\n\n            </ion-col>\n\n\n\n            <ion-col class="col-send">\n\n              <button (click)="doValidator(questionForm.value)" [disabled]="!questionForm.valid" ion-button\n\n                color="quaternary" icon-left block full>{{ \'STEP.RISK.FORM.BUTTON\' | translate }}</button>\n\n            </ion-col>\n\n          </ion-row>\n\n        </ion-grid>\n\n      </form>\n\n\n\n      <ion-card *ngIf="process_step == 4" class="animated flipInX">\n\n        <ion-card-content class="card-background-success">\n\n          <ion-grid>\n\n            <ion-row>\n\n              <ion-col>\n\n                <ion-icon ios="ios-checkmark" md="md-checkmark"></ion-icon>\n\n                <h2 *ngIf="score == 0 && payment_type == 2">{{ \'STEP.SCORE.PREPAID\' | translate }}</h2>\n\n                <h2 *ngIf="score == 0 && payment_type == 3">{{ \'STEP.SCORE.DELIVERY\' | translate }}</h2>\n\n\n\n                <div *ngIf="score != 0">\n\n                  <h1><b>{{ \'STEP.SCORE.CONGRATULATIONS\' | translate }}</b></h1><br>\n\n                  <p>{{ \'STEP.SCORE.ASSIGEND\' | translate }}</p>\n\n                  <h2><b>${{ score }}</b></h2>\n\n                </div>\n\n\n\n                <br><br>\n\n              </ion-col>\n\n            </ion-row>\n\n          </ion-grid>\n\n        </ion-card-content>\n\n\n\n        <ion-row>\n\n          <ion-col>\n\n            <button (click)="doExit()" ion-button color="danger" block>{{ \'STEP.EXIT\' | translate }}</button>\n\n          </ion-col>\n\n\n\n          <ion-col>\n\n            <button (click)="doNext()" ion-button color="quaternary"\n\n              block>{{ \'STEP.SCORE.FORM.BUTTON\' | translate }}</button>\n\n          </ion-col>\n\n        </ion-row>\n\n      </ion-card>\n\n\n\n      <ion-card *ngIf="process_step == 4.2" class="animated flipInX">\n\n        <ion-card-content class="card-background-danger">\n\n          <ion-grid>\n\n            <ion-row>\n\n              <ion-col>\n\n                <ion-icon ios="ios-close-circle" md="md-close-circle"></ion-icon>\n\n\n\n                <p>{{ \'STEP.SCORE.ERROR.INVALID\' | translate }}\n\n                  <br>{{ \'STEP.SCORE.ERROR.MSG\' | translate }}</p>\n\n              </ion-col>\n\n            </ion-row>\n\n          </ion-grid>\n\n        </ion-card-content>\n\n\n\n        <ion-row>\n\n          <ion-col>\n\n            <button (click)="doExit()" ion-button color="danger" block>{{ \'STEP.EXIT\' | translate }}</button>\n\n          </ion-col>\n\n        </ion-row>\n\n      </ion-card>\n\n\n\n      <div *ngIf="process_step == 7" class="animated flipInX user-form">\n\n        <form [formGroup]="user_form">\n\n          <ion-title>{{ \'STEP.QUESTION.TOOLTIP\' | translate }}</ion-title>\n\n\n\n          <ion-list no-lines>\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.STATUS\' | translate }}</ion-label>\n\n\n\n              <ion-input formControlName="status" type="text"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.TYPE_REQUEST\' | translate }}</ion-label>\n\n\n\n              <ion-input formControlName="payment_type" type="text"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.CAMPAIGN\' | translate }}</ion-label>\n\n\n\n              <ion-input formControlName="campaign" type="text"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.TODAY\' | translate }}</ion-label>\n\n\n\n              <ion-input formControlName="today" type="text"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.TYPE_DOC\' | translate }}</ion-label>\n\n\n\n              <ion-input formControlName="document_type" type="text"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.DOCUMENT\' | translate }}</ion-label>\n\n\n\n              <ion-input formControlName="document" type="text"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.ZONE\' | translate }}</ion-label>\n\n\n\n              <ion-input formControlName="zone" type="text"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.FIRST_NAME\' | translate }}</ion-label>\n\n\n\n              <ion-input formControlName="first_name" type="text"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="!user_form.controls.first_name.valid && (user_form.controls.first_name.dirty)">\n\n              <p *ngIf="user_form.get(\'first_name\').hasError(\'required\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.FIRST_NAME.REQUIRED\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'first_name\').hasError(\'minlength\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.FIRST_NAME.MIN\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'first_name\').hasError(\'maxlength\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.FIRST_NAME.MAX\' | translate }}</p>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.LAST_NAME\' | translate }}</ion-label>\n\n\n\n              <ion-input formControlName="last_name" type="text"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="!user_form.controls.last_name.valid && (user_form.controls.last_name.dirty)">\n\n              <p *ngIf="user_form.get(\'last_name\').hasError(\'required\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.LAST_NAME.REQUIRED\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'last_name\').hasError(\'minlength\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.LAST_NAME.MIN\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'last_name\').hasError(\'maxlength\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.LAST_NAME.MAX\' | translate }}</p>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.GENRE.LABEL\' | translate }}</ion-label>\n\n\n\n              <ion-select formControlName="genre">\n\n                <ion-option value="1">{{ \'STEP.QUESTION.FORM.GENRE.MALE\' | translate }}</ion-option>\n\n\n\n                <ion-option value="2">{{ \'STEP.QUESTION.FORM.GENRE.FEMALE\' | translate }}</ion-option>\n\n              </ion-select>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.BIRTHDATE.LABEL\' | translate }}</ion-label>\n\n\n\n              <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD/MMM/YYYY"\n\n                monthShortNames="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic" formControlName="birthdate"\n\n                [min]="minDate" [max]="maxDate" doneText="{{ \'STEP.QUESTION.FORM.BIRTHDATE.DONE\' | translate }}"\n\n                cancelText="{{ \'STEP.QUESTION.FORM.BIRTHDATE.CANCEL\' | translate }}">\n\n              </ion-datetime>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.EMAIL\' | translate }}</ion-label>\n\n\n\n              <ion-input type="email" formControlName="email"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="!user_form.controls.email.valid && (user_form.controls.email.dirty)">\n\n              <p *ngIf="user_form.get(\'email\').hasError(\'required\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.EMAIL.REQUIRED\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'email\').hasError(\'pattern\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.EMAIL.INVALID\' | translate }}</p>\n\n            </ion-item>\n\n\n\n            <div class="direction-inpu-list">\n\n              <ion-label>{{ \'STEP.QUESTION.FORM.DIRECTION\' | translate }}</ion-label>\n\n\n\n              <ion-grid>\n\n                <ion-row>\n\n                  <ion-col col-4 class="first-col">\n\n                    <ion-select formControlName="direction_one" [selectOptions]="selectOptions" col-12\n\n                      (ionChange)="directionChange($event)">\n\n                      <ion-option value="NA">No Aplica</ion-option>\n\n                      <ion-option value="ADL">Adelante</ion-option>\n\n                      <ion-option value="ADM">Administración</ion-option>\n\n                      <ion-option value="AER">Aeropuerto</ion-option>\n\n                      <ion-option value="AG">Agencia</ion-option>\n\n                      <ion-option value="AGP">Agrupación</ion-option>\n\n                      <ion-option value="ALD">Al lado</ion-option>\n\n                      <ion-option value="ALM">Almacén</ion-option>\n\n                      <ion-option value="AL">Altillo</ion-option>\n\n                      <ion-option value="AVIAL">Anillo vial</ion-option>\n\n                      <ion-option value="APTDO">Apartado</ion-option>\n\n                      <ion-option value="AP">Apartamento</ion-option>\n\n                      <ion-option value="ATR">Atrás</ion-option>\n\n                      <ion-option value="AUT">Autopista</ion-option>\n\n                      <ion-option value="AV">Avenida</ion-option>\n\n                      <ion-option value="AC">Avenida calle</ion-option>\n\n                      <ion-option value="AK">Avenida carrera</ion-option>\n\n                      <ion-option value="BRR">Barrio</ion-option>\n\n                      <ion-option value="BL">Bloque</ion-option>\n\n                      <ion-option value="BG">Bodega</ion-option>\n\n                      <ion-option value="BLV">Boulevard</ion-option>\n\n                      <ion-option value="CL">Calle</ion-option>\n\n                      <ion-option value="CLJ">Callejón</ion-option>\n\n                      <ion-option value="CN">Camino</ion-option>\n\n                      <ion-option value="CR">Carrera</ion-option>\n\n                      <ion-option value="CRT">Carretera</ion-option>\n\n                      <ion-option value="CA">Casa</ion-option>\n\n                      <ion-option value="CAS">Caserío</ion-option>\n\n                      <ion-option value="CEL">Célula</ion-option>\n\n                      <ion-option value="CEN">Centro</ion-option>\n\n                      <ion-option value="CC">Centro comercial</ion-option>\n\n                      <ion-option value="CIR">Circular</ion-option>\n\n                      <ion-option value="CRV">Circunvalar</ion-option>\n\n                      <ion-option value="CD">Ciudadela</ion-option>\n\n                      <ion-option value="CONJ">Conjunto</ion-option>\n\n                      <ion-option value="CON">Conjunto residencial</ion-option>\n\n                      <ion-option value="CS">Consultorio</ion-option>\n\n                      <ion-option value="C">Corregimiento</ion-option>\n\n                      <ion-option value="DPTO">Departamento</ion-option>\n\n                      <ion-option value="DP">Depósito</ion-option>\n\n                      <ion-option value="DS">Depósito sótano</ion-option>\n\n                      <ion-option value="DG">Diagonal</ion-option>\n\n                      <ion-option value="ED">Edificio</ion-option>\n\n                      <ion-option value="EN">Entrada</ion-option>\n\n                      <ion-option value="ES">Escalera</ion-option>\n\n                      <ion-option value="ESQ">Esquina</ion-option>\n\n                      <ion-option value="ESTE">Este</ion-option>\n\n                      <ion-option value="ET">Etapa</ion-option>\n\n                      <ion-option value="EX">Exterior</ion-option>\n\n                      <ion-option value="FCA">Finca</ion-option>\n\n                      <ion-option value="GJ">Garaje</ion-option>\n\n                      <ion-option value="GS">Garaje sótano</ion-option>\n\n                      <ion-option value="GT">Glorieta</ion-option>\n\n                      <ion-option value="HC">Hacienda</ion-option>\n\n                      <ion-option value="HG">Hangar</ion-option>\n\n                      <ion-option value="IP">Inspección de Policía</ion-option>\n\n                      <ion-option value="IPD">Inspección departamental</ion-option>\n\n                      <ion-option value="IPM">Inspección Municipal</ion-option>\n\n                      <ion-option value="IN">Interior</ion-option>\n\n                      <ion-option value="KM">Kilómetro</ion-option>\n\n                      <ion-option value="LC">Local</ion-option>\n\n                      <ion-option value="LM">Local Mezznine</ion-option>\n\n                      <ion-option value="LT">Lote</ion-option>\n\n                      <ion-option value="MZ">Manzana</ion-option>\n\n                      <ion-option value="MN">Mezznine</ion-option>\n\n                      <ion-option value="MD">Módulo</ion-option>\n\n                      <ion-option value="MJ">Mojón</ion-option>\n\n                      <ion-option value="MLL">Muelle</ion-option>\n\n                      <ion-option value="NORTE">Norte</ion-option>\n\n                      <ion-option value="OCC">Occidente</ion-option>\n\n                      <ion-option value="OESTE">Oeste</ion-option>\n\n                      <ion-option value="OF">Oficina</ion-option>\n\n                      <ion-option value="O">Oriente</ion-option>\n\n                      <ion-option value="PRJ">Paraje</ion-option>\n\n                      <ion-option value="PA">Parcela</ion-option>\n\n                      <ion-option value="PW">Park Way</ion-option>\n\n                      <ion-option value="PAR">Parque</ion-option>\n\n                      <ion-option value="PQ">Parqueadero</ion-option>\n\n                      <ion-option value="PJ">Pasaje</ion-option>\n\n                      <ion-option value="PS">Paseo</ion-option>\n\n                      <ion-option value="PH">Penthouse</ion-option>\n\n                      <ion-option value="P">Piso</ion-option>\n\n                      <ion-option value="PL">Planta</ion-option>\n\n                      <ion-option value="POR">Portería</ion-option>\n\n                      <ion-option value="POS">Poste</ion-option>\n\n                      <ion-option value="PD">Predio</ion-option>\n\n                      <ion-option value="PN">Puente</ion-option>\n\n                      <ion-option value="PT">Puesto</ion-option>\n\n                      <ion-option value="RP">Round Point</ion-option>\n\n                      <ion-option value="SD">Salida</ion-option>\n\n                      <ion-option value="SA">Salón</ion-option>\n\n                      <ion-option value="SC">Salón comunal</ion-option>\n\n                      <ion-option value="SEC">Sector</ion-option>\n\n                      <ion-option value="SS">Semisótano</ion-option>\n\n                      <ion-option value="SL">Solar</ion-option>\n\n                      <ion-option value="ST">Sótano</ion-option>\n\n                      <ion-option value="SUITE">Suite</ion-option>\n\n                      <ion-option value="SM">Súper manzana</ion-option>\n\n                      <ion-option value="SUR">Sur</ion-option>\n\n                      <ion-option value="TER">Terminal</ion-option>\n\n                      <ion-option value="TERPLN">Terraplén</ion-option>\n\n                      <ion-option value="TZ">Terraza</ion-option>\n\n                      <ion-option value="TO">Torre</ion-option>\n\n                      <ion-option value="TV">Transversal</ion-option>\n\n                      <ion-option value="UN">Unidad</ion-option>\n\n                      <ion-option value="UR">Unidad residencial</ion-option>\n\n                      <ion-option value="URB">Urbanización</ion-option>\n\n                      <ion-option value="VTE">Variante</ion-option>\n\n                      <ion-option value="VRD">Vereda</ion-option>\n\n                      <ion-option value="ZN">Zona</ion-option>\n\n                      <ion-option value="ZF">Zona franca</ion-option>\n\n                    </ion-select>\n\n                  </ion-col>\n\n\n\n                  <ion-col col-2>\n\n                    <ion-input type="text" formControlName="direction_two" [disabled]="disable_input"></ion-input>\n\n                  </ion-col>\n\n\n\n                  <ion-col col-1 class="centered-field">\n\n                    #\n\n                  </ion-col>\n\n\n\n                  <ion-col col-2>\n\n                    <ion-input type="text" formControlName="direction_three" [disabled]="disable_input"></ion-input>\n\n                  </ion-col>\n\n\n\n                  <ion-col col-1 class="centered-field">\n\n                    -\n\n                  </ion-col>\n\n\n\n                  <ion-col col-2>\n\n                    <ion-input type="text" formControlName="direction_four" [disabled]="disable_input"></ion-input>\n\n                  </ion-col>\n\n                </ion-row>\n\n              </ion-grid>\n\n            </div>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.DIRECTION_OPTIONAL\' | translate }}</ion-label>\n\n\n\n              <ion-input type="text" formControlName="direction_five"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="!user_form.controls.direction_five.valid && (user_form.controls.direction_five.dirty)">\n\n              <p *ngIf="user_form.get(\'direction_five\').hasError(\'required\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.DIRECTION_OPTIONAL.REQUIRED\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'direction_five\').hasError(\'pattern\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.DIRECTION_OPTIONAL.INVALID\' | translate }}</p>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.NEIGHBORHOOD\' | translate }}</ion-label>\n\n\n\n              <ion-input type="text" formControlName="neighborhood"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.PHONE\' | translate }}</ion-label>\n\n\n\n              <ion-input type="number" formControlName="phone"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="!user_form.controls.phone.valid && (user_form.controls.phone.dirty)">\n\n              <p *ngIf="user_form.get(\'phone\').hasError(\'required\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.PHONE.REQUIRED\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'phone\').hasError(\'minlength\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.PHONE.MIN\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'phone\').hasError(\'maxlength\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.PHONE.MAX\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'phone\').hasError(\'pattern\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.PHONE.INVALID\' | translate }}</p>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.CELLPHONE\' | translate }}</ion-label>\n\n\n\n              <ion-input type="number" formControlName="cell_phone"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="!user_form.controls.cell_phone.valid && (user_form.controls.cell_phone.dirty)">\n\n              <p *ngIf="user_form.get(\'cell_phone\').hasError(\'required\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.CELLPHONE.REQUIRED\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'cell_phone\').hasError(\'minlength\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.CELLPHONE.MIN\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'cell_phone\').hasError(\'maxlength\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.CELLPHONE.MAX\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'cell_phone\').hasError(\'pattern\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.CELLPHONE.INVALID\' | translate }}</p>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.DEPARTMENT\' | translate }}</ion-label>\n\n\n\n              <ion-select formControlName="department" (ionChange)="departmentChange($event)">\n\n                <ion-option *ngFor="let item of departments" [value]="item.Id">{{ item.Name }}</ion-option>\n\n              </ion-select>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.CITY\' | translate }}</ion-label>\n\n\n\n              <ion-select formControlName="city">\n\n                <ion-option *ngFor="let item of cities" [value]="item.Id">{{ item.Name }}</ion-option>\n\n              </ion-select>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.LIVING_PLACE.LABEL\' | translate }}</ion-label>\n\n\n\n              <ion-select formControlName="living_place" (ionChange)="livingPlaceChange($event)">\n\n                <ion-option value="1">{{ \'STEP.QUESTION.FORM.LIVING_PLACE.OWN\' | translate }}</ion-option>\n\n\n\n                <ion-option value="2">{{ \'STEP.QUESTION.FORM.LIVING_PLACE.LEASED\' | translate }}</ion-option>\n\n              </ion-select>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="show_living_place">\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.LESSOR.NAME\' | translate }}</ion-label>\n\n\n\n              <ion-input type="text" formControlName="lessor_name"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="show_living_place">\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.LESSOR.PHONE\' | translate }}</ion-label>\n\n\n\n              <ion-input type="number" formControlName="lessor_phone"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="!user_form.controls.lessor_phone.valid && (user_form.controls.lessor_phone.dirty)">\n\n              <p *ngIf="user_form.get(\'lessor_phone\').hasError(\'required\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.LESSOR.PHONE.REQUIRED\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'lessor_phone\').hasError(\'minlength\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.LESSOR.PHONE.MIN\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'lessor_phone\').hasError(\'maxlength\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.LESSOR.PHONE.MAX\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'lessor_phone\').hasError(\'pattern\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.LESSOR.PHONE.INVALID\' | translate }}</p>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="show_living_place">\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.LESSOR.CELL\' | translate }}</ion-label>\n\n\n\n              <ion-input type="number" formControlName="lessor_cell_phone"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item\n\n              *ngIf="!user_form.controls.lessor_cell_phone.valid && (user_form.controls.lessor_cell_phone.dirty)">\n\n              <p *ngIf="user_form.get(\'lessor_cell_phone\').hasError(\'required\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.LESSOR.CELL.REQUIRED\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'lessor_cell_phone\').hasError(\'minlength\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.LESSOR.CELL.MIN\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'lessor_cell_phone\').hasError(\'maxlength\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.LESSOR.CELL.MAX\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'lessor_cell_phone\').hasError(\'pattern\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.LESSOR.CELL.INVALID\' | translate }}</p>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.SELLER\' | translate }}</ion-label>\n\n\n\n              <ion-input type="text" formControlName="catalogs"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.REFERRAL.NAME\' | translate }}</ion-label>\n\n\n\n              <ion-input type="text" formControlName="referral"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.REFERRAL.DEPARTMENT\' | translate }}</ion-label>\n\n\n\n              <ion-select formControlName="department_fam" (ionChange)="departmentFamChange($event)">\n\n                <ion-option *ngFor="let item of departments" [value]="item.Id">{{ item.Name }}</ion-option>\n\n              </ion-select>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.REFERRAL.CITY\' | translate }}</ion-label>\n\n\n\n              <ion-select formControlName="city_fam">\n\n                <ion-option *ngFor="let item of cities_fam" [value]="item.Id">{{ item.Name }}</ion-option>\n\n              </ion-select>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.REFERRAL.PHONE\' | translate }}</ion-label>\n\n\n\n              <ion-input type="number" formControlName="phone_fam"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="!user_form.controls.phone_fam.valid && (user_form.controls.phone_fam.dirty)">\n\n              <p *ngIf="user_form.get(\'phone_fam\').hasError(\'required\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.REFERRAL.PHONE.REQUIRED\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'phone_fam\').hasError(\'minlength\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.REFERRAL.PHONE.MIN\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'phone_fam\').hasError(\'maxlength\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.REFERRAL.PHONE.MAX\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'phone_fam\').hasError(\'pattern\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.REFERRAL.PHONE.INVALID\' | translate }}</p>\n\n            </ion-item>\n\n          </ion-list>\n\n\n\n          <ion-grid class="grid-title">\n\n            <ion-title>{{ \'STEP.QUESTION.FORM.SPONSOR.TITLE\' | translate }}</ion-title>\n\n          </ion-grid>\n\n\n\n          <ion-list no-lines>\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.SPONSOR.TYPE_DOC.LABEL\' | translate }}</ion-label>\n\n\n\n              <ion-select formControlName="business_document_type">\n\n                <ion-option value="1">{{ \'STEP.QUESTION.FORM.SPONSOR.TYPE_DOC.DOCUMENT\' | translate }}</ion-option>\n\n\n\n                <ion-option value="2">{{ \'STEP.QUESTION.FORM.SPONSOR.TYPE_DOC.FOREIGN\' | translate }}</ion-option>\n\n              </ion-select>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.SPONSOR.DOCUMENT\' | translate }}</ion-label>\n\n\n\n              <ion-input type="number" formControlName="business_document" (keyup)="businessChange($event)"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item\n\n              *ngIf="!user_form.controls.business_document.valid && (user_form.controls.business_document.dirty)">\n\n              <p *ngIf="user_form.get(\'business_document\').hasError(\'required\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.SPONSOR.DOCUMENT.REQUIRED\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'business_document\').hasError(\'minlength\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.SPONSOR.DOCUMENT.MIN\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'business_document\').hasError(\'maxlength\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.SPONSOR.DOCUMENT.MAX\' | translate }}</p>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="show_business">\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.SPONSOR.NAME\' | translate }}</ion-label>\n\n\n\n              <ion-input type="text" formControlName="business_name"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="show_business">\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.SPONSOR.RANK\' | translate }}</ion-label>\n\n\n\n              <ion-input type="text" formControlName="business_rank"></ion-input>\n\n            </ion-item>\n\n          </ion-list>\n\n\n\n          <ion-grid class="grid-title">\n\n            <ion-title>{{ \'STEP.QUESTION.FORM.REFERS.TITLE\' | translate }}</ion-title>\n\n          </ion-grid>\n\n\n\n          <ion-list no-lines>\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.REFERS.TYPE_DOC.LABEL\' | translate }}</ion-label>\n\n\n\n              <ion-select formControlName="referrer_document_type">\n\n                <ion-option value="1">{{ \'STEP.QUESTION.FORM.REFERS.TYPE_DOC.DOCUMENT\' | translate }}</ion-option>\n\n\n\n                <ion-option value="2">{{ \'STEP.QUESTION.FORM.REFERS.TYPE_DOC.FOREIGN\' | translate }}</ion-option>\n\n              </ion-select>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.REFERS.DOCUMENT\' | translate }}</ion-label>\n\n\n\n              <ion-input type="number" formControlName="referrer_document" (keyup)="referrerChange($event)"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item\n\n              *ngIf="!user_form.controls.referrer_document.valid && (user_form.controls.referrer_document.dirty)">\n\n              <p *ngIf="user_form.get(\'referrer_document\').hasError(\'required\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.REFERS.DOCUMENT.REQUIRED\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'referrer_document\').hasError(\'minlength\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.REFERS.DOCUMENT.MIN\' | translate }}</p>\n\n\n\n              <p *ngIf="user_form.get(\'referrer_document\').hasError(\'maxlength\')">\n\n                {{ \'STEP.QUESTION.FORM.ERROR.REFERS.DOCUMENT.MAX\' | translate }}</p>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="show_referrer">\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.REFERS.NAME\' | translate }}</ion-label>\n\n\n\n              <ion-input type="text" formControlName="referrer_name"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item *ngIf="show_referrer">\n\n              <ion-label floating>{{ \'STEP.QUESTION.FORM.REFERS.RANK\' | translate }}</ion-label>\n\n\n\n              <ion-input type="text" formControlName="referrer_rank"></ion-input>\n\n            </ion-item>\n\n          </ion-list>\n\n\n\n          <ion-grid>\n\n            <ion-row>\n\n              <ion-col class="col-exit">\n\n                <button (click)="doExit()" ion-button full color="danger">{{ \'STEP.EXIT\' | translate }}</button>\n\n              </ion-col>\n\n\n\n              <ion-col class="col-send">\n\n                <button (click)="openModal()" [disabled]="!user_form.valid" ion-button full\n\n                  color="quaternary">{{ \'STEP.QUESTION.FORM.BUTTON\' | translate }}</button>\n\n              </ion-col>\n\n            </ion-row>\n\n          </ion-grid>\n\n        </form>\n\n      </div>\n\n\n\n      <div *ngIf="process_step == 8" class="animated flipInX">\n\n        <ion-title>{{ \'STEP.FILE.TOOLTIP\' | translate }}</ion-title>\n\n\n\n        <ion-card>\n\n          <ion-card-content>\n\n            <ion-grid>\n\n              <ion-row>\n\n                <ion-col col-6 class="first-col-file">\n\n                  <h2 ion-text>{{ \'STEP.FILE.FORM.CHOOSE_FILE\' | translate }}</h2>\n\n                </ion-col>\n\n\n\n                <ion-col col-6>\n\n                  <!-- <button (click)="attachFile()" ion-button color="primary" block>{{ \'STEP.FILE.FORM.FILE\' | translate }}</button> -->\n\n                  <button (click)="attachFile()" ion-button color="primary" block>\n\n                    {{ \'STEP.FILE.FORM.FILE\' | translate }}\n\n                  </button>\n\n\n\n                  <input type="file" id="file" (change)="handleFileInput($event.target.files)" hidden\n\n                    id="hidden-upload-file-btn">\n\n\n\n                  {{ \'STEP.FILE.FORM.FILE\' | translate }}\n\n                </ion-col>\n\n              </ion-row>\n\n              {{ file }}\n\n            </ion-grid>\n\n          </ion-card-content>\n\n\n\n          <ion-grid>\n\n            <ion-row>\n\n              <ion-col class="col-exit">\n\n                <button (click)="doExit()" ion-button full color="danger">{{ \'STEP.EXIT\' | translate }}</button>\n\n              </ion-col>\n\n\n\n              <ion-col class="col-send">\n\n                <button (click)="doSendFile()" ion-button color="quaternary" icon-left block\n\n                  full>{{ \'STEP.FILE.FORM.BUTTON\' | translate }}</button>\n\n              </ion-col>\n\n            </ion-row>\n\n          </ion-grid>\n\n        </ion-card>\n\n      </div>\n\n\n\n      <ion-card *ngIf="process_step == 10" class="animated flipInX">\n\n        <ion-card-content class="card-background-success">\n\n          <ion-grid>\n\n            <ion-row>\n\n              <ion-col>\n\n                <ion-icon name="logo-usd">\n\n                  <p>{{ \'STEP.END.FINISH\' | translate }}<br><i>{{ \'STEP.END.SCORE\' | translate }}</i></p>\n\n\n\n                  <h1>\n\n                    <strong>${{ score }}</strong>\n\n                  </h1>\n\n                </ion-icon>\n\n              </ion-col>\n\n            </ion-row>\n\n          </ion-grid>\n\n        </ion-card-content>\n\n\n\n        <ion-row>\n\n          <ion-col>\n\n            <button (click)="doExit()" ion-button color="quaternary" full>{{ \'STEP.EXIT\' | translate }}</button>\n\n          </ion-col>\n\n        </ion-row>\n\n      </ion-card>\n\n    </ion-card-content>\n\n  </ion-card>\n\n</ion-content>'/*ion-inline-end:"C:\xampp\htdocs\hermeco-movil\src\pages\search\search.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_10__providers__["c" /* User */],
             __WEBPACK_IMPORTED_MODULE_8_ionic_angular__["k" /* NavParams */],
@@ -21691,7 +21878,8 @@ var SearchPage = /** @class */ (function () {
             __WEBPACK_IMPORTED_MODULE_4__ionic_native_file_chooser__["a" /* FileChooser */],
             __WEBPACK_IMPORTED_MODULE_8_ionic_angular__["h" /* ModalController */],
             __WEBPACK_IMPORTED_MODULE_5__ionic_native_file_path__["a" /* FilePath */],
-            __WEBPACK_IMPORTED_MODULE_6__ionic_native_file__["a" /* File */]])
+            __WEBPACK_IMPORTED_MODULE_6__ionic_native_file__["a" /* File */],
+            __WEBPACK_IMPORTED_MODULE_8_ionic_angular__["l" /* Platform */]])
     ], SearchPage);
     return SearchPage;
 }());
